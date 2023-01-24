@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+  <form>
+    <label for="price">Original Price:</label>
+    <input type="text" id="price" name="price">
+    <br>
+    <label for="tax_rate">Tax Rate (%):</label>
+    <select name="" id="tax-rate" class="tax-rate">
+    <option value=""></option>
+    <option value="tax %5">tax %5</option>
+    <option value="tax %10">tax %10</option>
+  </select>
+    <br>
+    <label for="tax_type">Tax Type:</label>
+    <select id="tax_type" name="tax_type">
+      <option value="exclusive">Exclusive</option>
+      <option value="inclusive">Inclusive</option>
+    </select>
+    <br>
+    <label for="profit_margin">Profit Margin (%):</label>
+    <input type="text" id="profit_margin" name="profit_margin">
+    <br><br>
+    <label for="purchase_price">Purchase Price:</label>
+    <input type="text" id="purchase_price" name="purchase_price" readonly>
+    <br>
+    <label for="sales_price">Sales Price:</label>
+    <input type="text" id="sales_price" name="sales_price">
+    <br>
+    <label for="final_price">Final Price:</label>
+    <input type="text" id="final_price" name="final_price" readonly>
+  </form>
+  <script
+  src="https://code.jquery.com/jquery-3.6.3.js"
+  integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
+  crossorigin="anonymous"></script>
+
+ 
+  
+  <script>
+    $(document).ready(function() {
+      $("#price, #tax_rate, #tax_type, #profit_margin, #sales_price").on("change", function() {
+        var originalPrice = $("#price").val();
+        var taxRate = $("#tax_rate").val();
+        var taxType = $("#tax_type").val();
+        var profitMargin = $("#profit_margin").val();
+        var salesPrice = $("#sales_price").val();
+        var purchasePrice;
+        if(taxRate==="tax %5"){
+        if (taxType === "inclusive") {
+          purchasePrice = salesPrice / (1 + (5/100));
+        } else {
+          purchasePrice = (salesPrice - (salesPrice * (5/100)));
+        }
+      }else if(taxRate==="tax %10"){
+        if (taxType === "inclusive") {
+          purchasePrice = salesPrice / (1 + (10/100));
+        } else {
+          purchasePrice = (salesPrice - (salesPrice * (10/100)));
+        }
+      }
+        $("#purchase_price").val(purchasePrice.toFixed(2));
+        $("#final_price").val((salesPrice * (1 + (taxRate/100))).toFixed(2));
+      });
+    });
+  </script>
+</body>
+</html>
