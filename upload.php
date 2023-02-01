@@ -1,6 +1,6 @@
 
 <?php 
-    require("Upload.php");
+    require("configs/initialized.php");
     
     if(isset($_POST['upload-image'])){
         if($_FILES['image']['error']== 0){
@@ -19,16 +19,6 @@
     <title>Document</title>
 </head>
 <body>
-
-<?php
-    $images=glob("upload/*.*");
-    foreach($images as $image){
-?>
-    <img src="<?php echo $image;?>" alt="">
-<?php
-    }
-?>
-
 <form action="" method="post" enctype="multipart/form-data">
     <h2>Chose an image to upload</h2>
     <input type="file" name="image">

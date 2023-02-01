@@ -18,7 +18,6 @@ echo json_encode($brand);
 if(isset($_POST['edit'])){
         
     $id = $_POST['id'];
-
     $brand=Brand::singleFetch($id);
     $brand->id=$_POST["id"];
     $brand->name=$_POST["name"];
@@ -40,6 +39,10 @@ if(isset($_POST['edit'])){
         echo json_encode($data);
     } 
 }
+
+
+
+
 
 
 if(isset($_POST['add'])){

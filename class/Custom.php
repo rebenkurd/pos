@@ -118,8 +118,8 @@ class Custom extends DbObject {
     $data=array();
     while($row=mysqli_fetch_assoc($query)){
         $sub_array=array();
-        $sub_array[]=$row['id'];
         $sub_array[]=$row['barcode'];
+        $sub_array[]=$row['id'];
         $sub_array[]=$row['name'];
         $sub_array[]=Brand::singleFetch($row['brand'])->name;
         $sub_array[]=Category::singleFetch($row['category'])->name;
@@ -151,8 +151,20 @@ class Custom extends DbObject {
     echo json_encode($output);
 
 }
-
-    
+public static function search($str){
+    global $database;
+    $sql="SELECT * FROM ".static::$table." WHERE name LIKE '%".$str."%' OR barcode LIKE '%".$str."%'";
+    $res=$database->connection->query($sql);
+        if(mysqli_num_rows($res) > 0)
+        {
+            echo '<ul class="navbar-nav">';
+            while($row = mysqli_fetch_assoc($res))
+            {
+                echo '<li class="nav-item py-2 px-4 border-bottom search-hover" style="cursor:pointer;" id="'.$row['id'].'">'.$row['barcode']." - ".$row['name'].'</li>';
+            }
+            echo '</ul>';
+        }
+}
 
 }
 

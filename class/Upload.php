@@ -2,14 +2,12 @@
 
 <?php
 
-class Upload{
-
-
+class Upload extends DbObject{
 private $image_name;
 private $image_type;
 private $image_size;
 private $image_temp;
-private $upload_folder="img";
+private $upload_folder="assets/img/upload/";
 private $upload_max_size=1024000000; //2mg
 
 private $allowed_image_type=["image/jpeg","image/jpg","image/png","image/gif"];
@@ -44,10 +42,7 @@ private function isImage(){
     if(!in_array($mime,$this->allowed_image_type)){
         return $this->error='only [.jpeg, .jpg, .png and .gif]  file are allowed';
     }
-
     finfo_close($finfo);
-
-
 }
 
 private function imageNameValidation(){
@@ -73,24 +68,12 @@ private function movieFile(){
 }
 
 private function recordImage(){
-    $mysqli=new mysqli('localhost','root','','super-pos');
-
-    $mysqli->query("INSERT INTO image_upload(name) VALUES('$this->image_name')");
-    if($mysqli->affected_rows != 1){
+    global $database;
+    $mysqli=$database->query("INSERT INTO uploads(name) VALUES('$this->image_name')");
         if(file_exists($this->upload_folder.$this->image_name)){
             unlink($this->upload_folder.$this->image_name);
         }
-        return $this->error="there was error, p;ease try again!";
-    }
 
 }
-
-
-
-
-
-
-
-
 
 }

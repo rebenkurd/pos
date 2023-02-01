@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>BarcodeReader JQuery sample</title>
+</head>
+<body>
+    <canvas id="c1"></canvas>
+    <canvas id="c2"></canvas>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="assets/vendor/libs/scanner/qrcodelib.js"></script>
+<script src="assets/vendor/libs/scanner/webcodecamjquery.js"></script>
+    <script >
+    var arg = {
+        resultFunction: function(result) {
+            $('body').append($('<li>' + result.format + ': ' + result.code + '</li>'));
+        }
+    };
+
+    $("#c1").WebCodeCamJQuery(arg).data().plugin_WebCodeCamJQuery.play();
+ </script>
+</body>
+</html>

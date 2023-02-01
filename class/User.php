@@ -35,30 +35,53 @@ class User extends DbObject {
     public $role;
     public $created_at;
     public $updated_at;
-    public $image_directory="assets/img/user";
-    public $image_placeholder="http://placehold.it/400x400&text=image";
+    public $upload_folder="assets/img/user";
 
-    public function uploadImage($file) {
 
-            // if($this->id){
-            //     $this->update();
-            // } else {
-    
-                $target_path=SITE_ROOT.DS.$this->image_directory.DS.$this->image;
-    
-                if(move_uploaded_file($this->tmp_path,$target_path)){
-                        unset($this->tmp_path);
-                        return true;
-                }else{
-                    $this->errors[] = "the file directory probably does not permission";
-                    return false;
-                }
-            // }
+    public function setUserImage($file){
+        if(empty($file) || !$file || !is_array($file)){
+            $this->errors[] = "There was no file uploaded here";
+            return false;
+        }elseif($file['error'] != 0){
+            $this->errors[] = $this->upload_errors_array[$file['error']];
+            return false;
+        }else{
+            $this->image = basename($file['name']);
+            $this->tmp_path = $file['tmp_name'];
+            $this->type = $file['type'];
+            $this->size = $file['size'];
+        }
     }
-    public function image_path_and_placeholder(){
-        return empty($this->image) ? $this->image_placeholder : $this->upload_directory.DS.$this->image;
+
+    public function uploadUserPhoto(){
+        if($this->id){
+            $this->update();
+        } else {
+            if(!empty($this->errors)){
+                return false;
+            }
+
+            if(empty($this->image) || empty($this->tmp_path)){
+                $this->errors[]="the file was not avalable";
+                return false;
+            }
+            $target_path=SITE_ROOT.DS.$this->upload_folder.DS.$this->image;
+
+            if(file_exists($target_path)){
+                $this->errors[]="The file {$this->image} already exists";
+                return false;
+            }
+            if(move_uploaded_file($this->tmp_path,$target_path)){
+                    unset($this->tmp_path);
+                    return true;
+            }else{
+                $this->errors[] = "the file directory probably does not permission";
+                return false;
+            }
+        }
     }
- public static function fetch(){
+
+ public function fetch(){
     global $database;
     $outpu=array();
     $sql="SELECT * FROM ".static::$table;
@@ -111,6 +134,11 @@ class User extends DbObject {
     while($row=mysqli_fetch_assoc($query)){
             $sub_array=array();
             $sub_array[]=$row['id'];
+            $sub_array[]='<div class="avatar-wrapper">
+            <div class="avatar avatar-sm me-3">
+            <img src="'.$this->upload_folder.DS.$row['image'].'" class="rounded-circle">
+            </div>
+            </div>';
             $sub_array[]=$row['f_name']." ".$row['l_name'];
             $sub_array[]=$row['email'];
             $sub_array[]=$row['phone1'];

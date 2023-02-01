@@ -40,6 +40,10 @@
     <link rel="stylesheet" href="<?php echo ASSETS_PATH;?>/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css" />
     <link rel="stylesheet" href="<?php echo ASSETS_PATH;?>/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css" />
     <link rel="stylesheet" href="<?php echo ASSETS_PATH;?>/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css" />
+    <link rel="stylesheet" href="<?php echo ASSETS_PATH;?>/vendor/libs/select2/select2.css" />
+    <link rel="stylesheet" href="<?php echo ASSETS_PATH;?>/vendor/libs/toastr/toastr.css" />
+    <link rel="stylesheet" href="<?php echo ASSETS_PATH;?>/vendor/libs/animate-css/animate.css" />
+
     <!-- loader -->
     <link rel="stylesheet" href="<?php echo ASSETS_PATH;?>/vendor/libs/loader/loader.css" />
     <!-- Page CSS -->

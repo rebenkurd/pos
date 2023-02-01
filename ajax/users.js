@@ -25,9 +25,10 @@ $(function(){
           { data: 4 },
           { data: 5 },
           { data: 6 },
+          { data: 7 },
       ],
       columnDefs: [{
-        targets: 6,
+        targets: 7,
         searchable: false,
         visible: false
     },
@@ -382,11 +383,20 @@ function(e){
     var password =$('#user_password').val();
     var cpassword =$('#user_cpassword').val();
     var address =$('#user_address').val();
-    var bio =$('#user_bio').val();
     var formData = new FormData();
-    formData.append("image",$('#user_image')[0].files[0]);
 
-    if(fname==""&&email=="" &&role==""&&phone1==""&& password==""&&cpassword==""){
+    formData.append("fname",fname);
+    formData.append("lname",lname);
+    formData.append("email",email);
+    formData.append("role",role);
+    formData.append("phone1",phone1);
+    formData.append("phone2",phone2);
+    formData.append("password",password);
+    formData.append("add",true);
+    formData.append("address",address);
+    formData.append("image",$('#user_image')[0].files[0]);
+    
+        if(fname==""&&email=="" &&role==""&&phone1==""&& password==""&&cpassword==""){
         $("#alert").html('<div class="alert alert-danger" role="alert">تکایە خانەکان پربکەرەوە </div>');
         try{
             $("#alert").show();
@@ -394,7 +404,7 @@ function(e){
             console.log(e);
         }
         $("#alert").fadeOut(4000);
-    }else if(fname == ''){
+        }else if(fname == ''){
         $("#alert").html('<div class="alert alert-danger" role="alert">تکایە ناوی یەکەم بنوسە</div>');
         try{
             $("#alert").show();
@@ -402,7 +412,7 @@ function(e){
             console.log(e);
         }
         $("#alert").fadeOut(4000);
-    }else if(fname.length<3){
+        }else if(fname.length<3){
         $("#alert").html('<div class="alert alert-warning" role="alert">تکایە بە ناوی بەکارهێنەر لە سێ پیت کەمتر نەبێ</div>');
         try{
             $("#alert").show();
@@ -410,7 +420,7 @@ function(e){
             console.log(e);
         }
         $("#alert").fadeOut(4000);
-    }else if(email == ''){
+        }else if(email == ''){
         $("#alert").html('<div class="alert alert-danger" role="alert">تکایە ئیمەیڵی بەکارهێنەر بنوسە</div>');
         try{
             $("#alert").show();
@@ -418,7 +428,7 @@ function(e){
             console.log(e);
         }
         $("#alert").fadeOut(4000);
-    }else if(role == ''){
+        }else if(role == ''){
         $("#alert").html('<div class="alert alert-danger" role="alert">تکایە ڕؤڵێک هەڵبژێرە</div>');
         try{
             $("#alert").show();
@@ -426,7 +436,7 @@ function(e){
             console.log(e);
         }
         $("#alert").fadeOut(4000);
-    } else if(phone1==""){
+        } else if(phone1==""){
         $("#alert").html('<div class="alert alert-danger" role="alert">تکایە ژمارەی مۆبایل بنووسە</div>');
         try{
             $("#alert").show();
@@ -434,7 +444,7 @@ function(e){
             console.log(e);
         }
         $("#alert").fadeOut(4000);
-    }else if(password == ''){
+        }else if(password == ''){
         $("#alert").html('<div class="alert alert-danger" role="alert">وشەی تێپەڕ بنووسە</div>');
         try{
             $("#alert").show();
@@ -442,7 +452,7 @@ function(e){
             console.log(e);
         }
         $("#alert").fadeOut(4000);
-    }else if(cpassword == ''){
+        }else if(cpassword == ''){
         $("#alert").html('<div class="alert alert-danger" role="alert">وشەی تێپەڕ دڵنیای بنووسە</div>');
         try{
             $("#alert").show();
@@ -450,7 +460,7 @@ function(e){
             console.log(e);
         }
         $("#alert").fadeOut(4000);
-    }else if(password != cpassword){
+        }else if(password != cpassword){
         $("#alert").html('<div class="alert alert-danger" role="alert">تکایە با وشەی تێپەڕ و وشەی تێپەڕی دڵنیای وەک و یەک بن</div>');
         try{
             $("#alert").show();
@@ -463,22 +473,14 @@ function(e){
     $.ajax({
         url: 'user_api.php',
         type:"POST",
-        data:{
-            fname:fname,
-            lname:lname,
-            email:email,
-            phone1:phone1,
-            phone2:phone2,
-            password:password,
-            address:address,
-            bio:bio,
-            role:role,
-            image:formData,
-            add:true,
-        },
+        data:formData,
+        contentType: false,
+        processData: false,
+      
         success:function(data){
             var json = JSON.parse(data);
             var success = json.success;
+            var error=json.errors;
             if(success=="true"){
                 $("#alert").html('<div class="alert alert-success" role="alert">بەسەرکەوتووی زیادکرا</div>');
                 try{
@@ -497,6 +499,15 @@ function(e){
                     console.log(e);
                 }
                 $("#alert").fadeOut(4000);
+                }
+                if(error){
+                  $("#alert").html('<div class="alert alert-danger" role="alert">'+error+'</div>');
+                  try{
+                      $("#alert").show();
+                  }catch(e){
+                      console.log(e);
+                  }
+                  $("#alert").fadeOut(4000);
                 }
     }
     })

@@ -22,6 +22,12 @@ require_once(CLASS_PATH.DS.'Role.php');
 require_once(CLASS_PATH.DS.'Category.php');
 require_once(CLASS_PATH.DS.'Brand.php');
 require_once(CLASS_PATH.DS.'Custom.php');
+require_once(CLASS_PATH.DS.'Upload.php');
+require_once(CLASS_PATH.DS.'Purchase.php');
+require_once(CLASS_PATH.DS.'Supplier.php');
+require_once(CLASS_PATH.DS.'Payment.php');
+require_once(CLASS_PATH.DS.'Item.php');
+require_once(CLASS_PATH.DS.'CompanyProfile.php');
 
 
 

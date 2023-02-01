@@ -429,7 +429,7 @@ $("#custom_table").on('click','.edit_btn_custom',function(event){
         success:function(data){
             var json = JSON.parse(data);
             $('#ecustom_name').val(json.name);
-            $('#ecustom_barcode').val(json.barcode);
+            $('#ecustom_barcode').val(json.id);
             $('#ecustom_qty').val(json.quantity);
             $('#ecustom_price').val(json.price);
             $('#ecustom_status').val(json.status);
@@ -792,7 +792,7 @@ function calculatePrice(originalPrice, taxRate, taxType) {
       $("#ecustom_sales_price").val(salesPrice.toFixed(2));
       $("#ecustom_final_price").val((salesPrice + (salesPrice * (taxRate / 100))).toFixed(2));
     }
-
+    fetchFinalPrice();
     $("#ecustom_sales_price").on("change", function() {
         var taxRate = $("#ecustom_tax").val();
         var salesPrice = $("#ecustom_sales_price").val();
@@ -800,3 +800,164 @@ function calculatePrice(originalPrice, taxRate, taxType) {
         $("#ecustom_final_price").val(finalPrice.toFixed(2));
       });
     })
+
+
+
+
+    
+$(document).on('submit','#add_custom_category',
+function(e){
+    e.preventDefault();
+    var name =$('#custom_category_name').val();
+    var description =$('#custom_category_desc').val();
+    var status =$('#custom_category_status').val();
+    if(name=="" && status==""){
+        $("#alert").html('<div class="alert alert-danger" role="alert">تکایە خانەی ناو و دۆخ پربکەرەوە </div>');
+        try{
+            $("#alert").show();
+        }catch(e){
+            console.log(e);
+        }
+        $("#alert").fadeOut(4000);
+    }else if(name == ''){
+        $("#alert").html('<div class="alert alert-danger" role="alert">تکایە ناوی جۆر بنوسە</div>');
+        try{
+            $("#alert").show();
+        }catch(e){
+            console.log(e);
+        }
+        $("#alert").fadeOut(4000);
+    }else if(name.length<3){
+        $("#alert").html('<div class="alert alert-danger" role="alert">تکایە بە ناوی جۆر لە سێ پیت کەمتر نەبێ</div>');
+        try{
+            $("#alert").show();
+        }catch(e){
+            console.log(e);
+        }
+        $("#alert").fadeOut(4000);
+    }else if(status==""){
+        $("#alert").html('<div class="alert alert-danger" role="alert">تکایە دۆخێک هەڵبژیرە</div>');
+        try{
+            $("#alert").show();
+        }catch(e){
+            console.log(e);
+        }
+        $("#alert").fadeOut(4000);
+    }else{
+    $.ajax({
+        url:"category_api.php",
+        type:"POST",
+        data:{
+            name:name,
+            description:description,
+            status:status,
+            add:true
+        },
+        success:function(data){
+            var json = JSON.parse(data);
+            var success = json.success;
+            if(success=="true"){
+                $("#alert").html('<div class="alert alert-success" role="alert">بەسەرکەوتووی زیادکرا</div>');
+                try{
+                    $("#alert");
+                }catch(e){
+                    console.log(e);
+                }
+                $("#alert").fadeOut(4000); 
+                $('#add_custom').load("customs.php #add_custom");
+              }else{
+                $("#alert").html('<div class="alert alert-danger" role="alert">هەڵەیەک ڕویدا تکایە دووبارەی بکەرەوە</div>');
+                try{
+                    $("#alert").show();
+                }catch(e){
+                    console.log(e);
+                }
+                $("#alert").fadeOut(4000);
+                }
+        }
+    })
+}
+}
+)
+
+
+
+
+
+$(document).on('submit','#add_custom_brand',
+function(e){
+    e.preventDefault();
+    var name=$('#custom_brand_name').val();
+    var status=$('#custom_brand_status').val();
+    var description=$('#custom_brand_desc').val();
+
+    if(name=="" && status==""){
+        $("#alert").html('<div class="alert alert-danger" role="alert">تکایە خانەکان پربکەرەوە </div>');
+        try{
+            $("#alert").show();
+        }catch(e){
+            console.log(e);
+        }
+        $("#alert").fadeOut(4000);
+    }else if(name == ''){
+        $("#alert").html('<div class="alert alert-danger" role="alert">تکایە ناوی بڕاند بنوسە</div>');
+        try{
+            $("#alert").show();
+        }catch(e){
+            console.log(e);
+        }
+        $("#alert").fadeOut(4000);
+    }else if(name.length<3){
+        $("#alert").html('<div class="alert alert-warning" role="alert">تکایە بە ناوی بڕاند لە سێ پیت کەمتر نەبێ</div>');
+        try{
+            $("#alert").show();
+        }catch(e){
+            console.log(e);
+        }
+        $("#alert").fadeOut(4000);
+    } else if(status==""){
+        $("#alert").html('<div class="alert alert-danger" role="alert">تکایە دۆخێک هەڵبژیرە</div>');
+        try{
+            $("#alert").show();
+        }catch(e){
+            console.log(e);
+        }
+        $("#alert").fadeOut(4000);
+    }
+    else {
+    $.ajax({
+        url:'brand_api.php',
+        type:"POST",
+        data:{
+            name:name,
+            status:status,
+            description:description,
+            add:true
+        },
+        success:function(data){
+            var json = JSON.parse(data);
+            var success = json.success;
+
+            if(success=="true"){
+                $("#alert").html('<div class="alert alert-success" role="alert">بەسەرکەوتووی زیادکرا</div>');
+                try{
+                    $("#alert").show();
+                }catch(e){
+                    console.log(e);
+                }
+                $("#alert").fadeOut(4000); 
+                $('#add_custom').load("customs.php #add_custom");
+               }else{
+                $("#alert").html('<div class="alert alert-danger" role="alert">هەڵەیەک ڕویدا تکایە دووبارەی بکەرەوە</div>');
+                try{
+                    $("#alert").show();
+                }catch(e){
+                    console.log(e);
+                }
+                $("#alert").fadeOut(4000);
+                }
+        }
+    })
+}
+}
+)

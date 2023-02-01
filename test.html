@@ -5,70 +5,267 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
 </head>
 <body>
-  <form>
-    <label for="price">Original Price:</label>
-    <input type="text" id="price" name="price">
-    <br>
-    <label for="tax_rate">Tax Rate (%):</label>
-    <select name="" id="tax-rate" class="tax-rate">
-    <option value=""></option>
-    <option value="tax %5">tax %5</option>
-    <option value="tax %10">tax %10</option>
-  </select>
-    <br>
-    <label for="tax_type">Tax Type:</label>
-    <select id="tax_type" name="tax_type">
-      <option value="exclusive">Exclusive</option>
-      <option value="inclusive">Inclusive</option>
-    </select>
-    <br>
-    <label for="profit_margin">Profit Margin (%):</label>
-    <input type="text" id="profit_margin" name="profit_margin">
-    <br><br>
-    <label for="purchase_price">Purchase Price:</label>
-    <input type="text" id="purchase_price" name="purchase_price" readonly>
-    <br>
-    <label for="sales_price">Sales Price:</label>
-    <input type="text" id="sales_price" name="sales_price">
-    <br>
-    <label for="final_price">Final Price:</label>
-    <input type="text" id="final_price" name="final_price" readonly>
-  </form>
-  <script
-  src="https://code.jquery.com/jquery-3.6.3.js"
-  integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
-  crossorigin="anonymous"></script>
+  <div class="container mt-5">
+    <h1 class="text-center">Shopping Cart</h1>
+        <table class="table hover">
+          <thead>
+            <tr>
+              <th>quantity</th>
+              <th>price</th>
+              <th>discount type</th>
+              <th>discount amount</th>
+              <th>tax %</th>
+              <th>tax amount</th>
+              <th>purchase price</th>
+              <th>final price</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr id="">
+              <td>
+              <div class="input-group flex-nowrap">
+              <button type="button" class="btn  btn-danger btn-sm" id="item_btn_minus"><i class="fa fa-minus"></i></button>
+              <input type="text" id="item_qty" size="50" value="1"  class="form-control input-sm text-center">
+              <button type="button" class="btn btn-success btn-sm item_btn_plus" id="item_btn_plus" ><i class="fa fa-plus"></i></button>
+              </div>
+              </td>
+              <td><input type="text" id="item_price" size="50" value="1000"  class="form-control"></td>
+              <td>
+                <select id="item_discount_type"  class="form-control">
+                  <option value="per">%</option>
+                  <option value="fix">$</option>
+                </select>
+              </td>
+              <td><input type="text" id="item_discount_amount" size="50" value="5" class="form-control"></td>
+              <td><input type="text" id="item_tax" size="50" value="10" class="form-control"></td>
+              <td><input type="text" id="item_tax_amount" readonly  class="form-control"></td>
+              <td><input type="text" id="item_purchase_price" size="50"   class="form-control"></td>
+              <td><input type="text" id="item_final_price" size="50"   class="form-control"></td>
+            </tr>
+            <tr id="">
+              <td>
+              <div class="input-group flex-nowrap">
+              <button type="button" class="btn  btn-danger btn-sm" id="item_btn_minus"><i class="fa fa-minus"></i></button>
+              <input type="text" id="item_qty" size="50" value="1"  class="form-control input-sm text-center">
+              <button type="button" class="btn btn-success btn-sm item_btn_plus" id="item_btn_plus" ><i class="fa fa-plus"></i></button>
+              </div>
+              </td>
+              <td><input type="text" id="item_price" size="50" value="1000"  class="form-control"></td>
+              <td>
+                <select id="item_discount_type"  class="form-control">
+                  <option value="per">%</option>
+                  <option value="fix">$</option>
+                </select>
+              </td>
+              <td><input type="text" id="item_discount_amount" size="50" value="5" class="form-control"></td>
+              <td><input type="text" id="item_tax" size="50" value="10" class="form-control"></td>
+              <td><input type="text" id="item_tax_amount" readonly  class="form-control"></td>
+              <td><input type="text" id="item_purchase_price" size="50"   class="form-control"></td>
+              <td><input type="text" id="item_final_price" size="50"   class="form-control"></td>
+            </tr>
+            <tr id="">
+              <td>
+              <div class="input-group flex-nowrap">
+              <button type="button" class="btn  btn-danger btn-sm" id="item_btn_minus"><i class="fa fa-minus"></i></button>
+              <input type="text" id="item_qty" size="50" value="1"  class="form-control input-sm text-center">
+              <button type="button" class="btn btn-success btn-sm item_btn_plus" id="item_btn_plus" ><i class="fa fa-plus"></i></button>
+              </div>
+              </td>
+              <td><input type="text" id="item_price" size="50" value="1000"  class="form-control"></td>
+              <td>
+                <select id="item_discount_type"  class="form-control">
+                  <option value="per">%</option>
+                  <option value="fix">$</option>
+                </select>
+              </td>
+              <td><input type="text" id="item_discount_amount" size="50" value="5" class="form-control"></td>
+              <td><input type="text" id="item_tax" size="50" value="10" class="form-control"></td>
+              <td><input type="text" id="item_tax_amount" readonly  class="form-control"></td>
+              <td><input type="text" id="item_purchase_price" size="50"   class="form-control"></td>
+              <td><input type="text" id="item_final_price" size="50"   class="form-control"></td>
+            </tr>
+            <tr id="">
+              <td>
+              <div class="input-group flex-nowrap">
+              <button type="button" class="btn  btn-danger btn-sm" id="item_btn_minus"><i class="fa fa-minus"></i></button>
+              <input type="text" id="item_qty" size="50" value="1"  class="form-control input-sm text-center">
+              <button type="button" class="btn btn-success btn-sm item_btn_plus" id="item_btn_plus" ><i class="fa fa-plus"></i></button>
+              </div>
+              </td>
+              <td><input type="text" id="item_price" size="50" value="1000"  class="form-control"></td>
+              <td>
+                <select id="item_discount_type"  class="form-control">
+                  <option value="per">%</option>
+                  <option value="fix">$</option>
+                </select>
+              </td>
+              <td><input type="text" id="item_discount_amount" size="50" value="5" class="form-control"></td>
+              <td><input type="text" id="item_tax" size="50" value="10" class="form-control"></td>
+              <td><input type="text" id="item_tax_amount" readonly  class="form-control"></td>
+              <td><input type="text" id="item_purchase_price" size="50"   class="form-control"></td>
+              <td><input type="text" id="item_final_price" size="50"   class="form-control"></td>
+            </tr>
+          </tbody>
+          </table>
 
- 
+          <div class="row">
+            <div class="col-6 ">
+              <h6>Total Quantity : <span id="total_quantity"></span> </h6> 
+              <div class="row mb-3">
+                <div class="col-4"><h6>Other charges</h6></div>
+                <div class="col-4"><input type="text" id="tax_amount" class="form-control"></div>
+                <div class="col-4">
+                  <select id="tax"  class="form-control">
+                    <option value="0">none</option>
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-4"><h6>Discount All</h6></div>
+                <div class="col-4"><input type="text" id="discount" class="form-control"></div>
+                <div class="col-4">
+                  <select id="discount_type"  class="form-control">
+                    <option value="per">%</option>
+                    <option value="fix">$</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <h6>Total price : <span id="total_price">0.00</span> </h6> 
+              <h6>Other charges : <span id="other_charges">0.00</span> </h6> 
+              <h6>Discount All : <span id="discount_all">0.00</span> </h6> 
+              <h6>Grant price : <span id="gtotal">0.00</span> </h6> 
+            </div>
+          </div>
+
+        </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
   
-  <script>
-    $(document).ready(function() {
-      $("#price, #tax_rate, #tax_type, #profit_margin, #sales_price").on("change", function() {
-        var originalPrice = $("#price").val();
-        var taxRate = $("#tax_rate").val();
-        var taxType = $("#tax_type").val();
-        var profitMargin = $("#profit_margin").val();
-        var salesPrice = $("#sales_price").val();
-        var purchasePrice;
-        if(taxRate==="tax %5"){
-        if (taxType === "inclusive") {
-          purchasePrice = salesPrice / (1 + (5/100));
-        } else {
-          purchasePrice = (salesPrice - (salesPrice * (5/100)));
-        }
-      }else if(taxRate==="tax %10"){
-        if (taxType === "inclusive") {
-          purchasePrice = salesPrice / (1 + (10/100));
-        } else {
-          purchasePrice = (salesPrice - (salesPrice * (10/100)));
-        }
-      }
-        $("#purchase_price").val(purchasePrice.toFixed(2));
-        $("#final_price").val((salesPrice * (1 + (taxRate/100))).toFixed(2));
-      });
-    });
-  </script>
+$(document).ready(function(){
+
+
+
+//   Quantity button click event
+var rows=$("#item_btn_plus, #item_btn_minus").parents('tr');
+rows.each(function(id){
+  $(this).attr('id','tr_'+id);
+$("#tr_"+id+" #item_btn_plus,#tr_"+id+" #item_btn_minus").click(function(){
+    var $qty = $("#tr_"+id+" #item_qty");
+    var currentVal = parseInt($qty.val());
+    if ($(this).hasClass("item_btn_plus")) {
+        $qty.val(currentVal + 1);
+    } else {
+       if(currentVal>1){
+        $qty.val(currentVal - 1);
+       }
+    }
+    calculatePrice();
+    totals();
+ 
+
+  });
+
+
+  // Calculate price function
+  function calculatePrice() {
+    var $price = $("#tr_"+id+" #item_price").val();
+    var $discountType = $("#tr_"+id+" #item_discount_type").val();
+    var $discountAmount = $("#tr_"+id+" #item_discount_amount").val();
+    var $tax = $("#tr_"+id+" #item_tax").val();
+    var $quantity = $("#tr_"+id+" #item_qty").val();
+    var $taxAmount = ((parseFloat($price) * $tax/100)- $discountAmount) * $quantity;
+    var taxAmount = ((parseFloat($price) * $tax/100)- $discountAmount);
+    var taxAmount2 = ((parseFloat($price) * $tax/100));
+    var discountAmount = $discountAmount * $quantity;
+    var finalPrice;
+    var purchasePrice;
+    if($discountType == "per"){
+      finalPrice = ((($price * $quantity) + parseFloat($taxAmount))) - (parseFloat($price) * parseFloat(discountAmount) / 100);
+      purchasePrice = parseFloat($price) + parseFloat(taxAmount) - (parseFloat($price) * parseFloat($discountAmount) / 100);
+    }
+    else{
+      $taxAmount = (taxAmount2-$discountAmount/1)*$quantity;   
+      $taxAmount3= (taxAmount2-$discountAmount/1);   
+      purchasePrice = (parseFloat($price) + parseFloat($taxAmount3)- ($discountAmount));
+      finalPrice = ((($price*$quantity)) + (parseFloat($taxAmount))) - (parseFloat($discountAmount)*$quantity);
+    }
+
+
+    $("#tr_"+id+" #item_tax_amount").val($taxAmount.toFixed(2));
+    $("#tr_"+id+" #item_purchase_price").val(purchasePrice.toFixed(2));
+    $("#tr_"+id+" #item_final_price").val(finalPrice.toFixed(2));
+  }
+  
+  // On form change event
+  calculatePrice();
+});
+
+
+function calculateGrandTotal() {
+  var totalQuantity = parseInt($('#total_quantity').text());
+  var totalPrice = parseFloat($('#total_price').text());
+  var otherCharges = parseFloat($('#other_charges').text());
+  var discount = parseFloat($('#discount_all').text());
+
+  var grandTotal = totalPrice + otherCharges - discount;
+  $('#gtotal').text(grandTotal.toFixed(2));
+}
+
+function totals(){
+  var totalQuantity = 0;
+  var totalPrice = 0;
+  $('tbody tr').each(function() {
+    totalQuantity += parseInt($(this).find('#item_qty').val());
+    totalPrice += parseFloat($(this).find('#item_final_price').val());
+  });
+  $('#total_quantity').text(totalQuantity);
+  $('#total_price').text(totalPrice.toFixed(2));
+  calculateGrandTotal();
+};
+totals();
+
+$("#tax_amount,#tax").change(function(){
+  var $taxAmount=$("#tax_amount").val();
+  var tax=$("#tax").val();
+  if(tax !=0){
+    var taxAmount=parseFloat($taxAmount)* (tax/100);
+    var otherCharges=parseFloat($taxAmount)+taxAmount;
+  }else{
+    var otherCharges=parseFloat($taxAmount);
+  }
+
+  $("#other_charges").text(otherCharges.toFixed(2))
+  calculateGrandTotal();
+})
+
+
+$("#discount,#discount_type").change(function(){
+  var orginalPrice=$("#total_price").text();
+  var $discountAmount=$("#discount").val();
+  var discountType=$("#discount_type").val();
+  if(discountType =="per"){
+    var discountAmount=parseFloat(orginalPrice)*($discountAmount/100);
+    var grandTotal=parseFloat(orginalPrice)-discountAmount.toFixed(2);
+  }else{
+    var discountAmount=$discountAmount/1;
+    var grandTotal=parseFloat(orginalPrice)- parseFloat(discountAmount);
+  }
+  $("#discount_all").text(discountAmount.toFixed(2))
+  calculateGrandTotal();
+})
+
+
+});
+</script>
 </body>
 </html>

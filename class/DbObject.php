@@ -2,16 +2,23 @@
 
 
 class DbObject{
+    public $allowed_types = array("jpeg","jpg" ,"png","gif");
+    public $max_size=5242880;//5MB
+    public $errors=array();
+    public $upload_errors_array=array(
+        UPLOAD_ERR_OK => "There is No Error",
+        UPLOAD_ERR_INI_SIZE => "the uploaded file exceeds the upload_mix_filesize directive",
+        UPLOAD_ERR_FORM_SIZE =>  "the uploaded file exceeds the MIX_FILE_SIZE directive that",
+        UPLOAD_ERR_PARTIAL => "the uploaded file was only partially uploaded.",
+        UPLOAD_ERR_NO_FILE  => "no file was uploaded" ,
+        UPLOAD_ERR_NO_TMP_DIR => "missing a temporary folder.",
+        UPLOAD_ERR_CANT_WRITE =>  "faield to write file to disk.",
+        UPLOAD_ERR_EXTENSION  =>  "A PHP extention stopped the file upload.",
+    );
 
 
-    public function set_file($file){
-
-        if(empty($file) || !$file || !is_array($file)){
-            $this->user_image = basename($file['name']);
-            $this->tmp_path = $file['tmp_name'];
-            $this->type = $file['type'];
-            $this->size = $file['size'];
-        }
+    public function deleteImage(){
+        return unlink($this->upload_folder.DS.$field);
     }
 
 
@@ -31,6 +38,11 @@ class DbObject{
     public static function singleFetch($id){
         global $database;
         $the_result_array=static::findByQuery("SELECT * FROM ".static::$table." WHERE id='$id' LIMIT 1");
+        return !empty($the_result_array)?array_shift($the_result_array):false;
+    }
+    public static function findbyCode($code){
+        global $database;
+        $the_result_array=static::findByQuery("SELECT * FROM ".static::$table." WHERE purchase_code='$code' LIMIT 1");
         return !empty($the_result_array)?array_shift($the_result_array):false;
     }
 
@@ -129,6 +141,7 @@ class DbObject{
         return (mysqli_affected_rows($database->connection)==1)?true:false;
     }
 
+    
 
 
 

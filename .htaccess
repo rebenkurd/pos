@@ -5,4 +5,4 @@ DirectoryIndex dashboard.php
 
 RewriteEngine on
 
-RewriteRule ^(dashboard|users|categories|brands|customs)$ $1.php [NC,L]
+RewriteRule ^(dashboard|users|categories|brands|customs|suppliers|purchases|add_purchase)$ $1.php [NC,L]

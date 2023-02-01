@@ -29,6 +29,18 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #555  !important;
 }
+
+#search-result .search-hover{
+  transition: background .3s;
+}
+
+#search-result .search-hover:hover{
+  background: var(--bs-body-bg);
+}
+
+
+
+
 .bg-menu-theme .menu-sub > .menu-item > .menu-link:before {
   content: "\ea6b";
   font-family: "tabler-icons";

@@ -6,6 +6,7 @@ if(isset($_POST['fetch'])){
     echo Custom::fetch();
 }
 
+
 if(isset($_POST['get'])){
 $id=$_POST['id'];
 $custom=Custom::singleFetch($id);
@@ -19,7 +20,7 @@ if(isset($_POST['edit'])){
     $custom=Custom::singleFetch($id);
     $custom->id=$_POST["id"];
     $custom->name=$_POST["name"];
-    $custom->barcode=$_POST["barcode"];
+    $custom->id=$_POST["barcode"];
     $custom->quantity=$_POST["qty"];
     $custom->unit=$_POST["unit"];
     $custom->price=$_POST["price"];
@@ -29,8 +30,8 @@ if(isset($_POST['edit'])){
     $custom->profit_margin=$_POST["profit_margin"];
     $custom->sales_price=$_POST["sales_price"];
     $custom->final_price=$_POST["final_price"];
-    $custom->discount=$_POST["discount"];
-    $custom->discount_type=$_POST["discount_type"];
+    // $custom->discount=$_POST["discount"];
+    // $custom->discount_type=$_POST["discount_type"];
     $custom->status=$_POST["status"];
     $custom->debt=$_POST["debt"];
     $custom->category=$_POST["category"];
@@ -58,7 +59,7 @@ if(isset($_POST['edit'])){
 if(isset($_POST['add'])){
     $custom=new Custom();
     $custom->name=$_POST["name"];
-    $custom->barcode=$_POST["barcode"];
+    $custom->id=$_POST["barcode"];
     $custom->quantity=$_POST["qty"];
     $custom->unit=$_POST["unit"];
     $custom->price=$_POST["price"];
@@ -68,8 +69,8 @@ if(isset($_POST['add'])){
     $custom->profit_margin=$_POST["profit_margin"];
     $custom->sales_price=$_POST["sales_price"];
     $custom->final_price=$_POST["final_price"];
-    $custom->discount=$_POST["discount"];
-    $custom->discount_type=$_POST["discount_type"];
+    // $custom->discount=$_POST["discount"];
+    // $custom->discount_type=$_POST["discount_type"];
     $custom->status=$_POST["status"];
     $custom->debt=$_POST["debt"];
     $custom->category=$_POST["category"];

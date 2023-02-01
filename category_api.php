@@ -47,7 +47,7 @@ if(isset($_POST['add'])){
     $category->added_by='rebin';
     $category->created_at=date("Y-m-d H:i:s");
     if($category->save()){
-        $data=array('success'=>'true',);
+        $data=array('success'=>'true');
         echo json_encode($data);
     }else{
         $data=array('success'=>'false',);

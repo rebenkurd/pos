@@ -1,6 +1,6 @@
-/**
- * Typeahead (jquery)
- */
+// /**
+//  * Typeahead (jquery)
+//  */
 
 'use strict';
 
@@ -16,7 +16,6 @@ $(function () {
           matches.push(str);
         }
       });
-
       cb(matches);
     };
   };
@@ -114,7 +113,7 @@ $(function () {
   var prefetchExample = new Bloodhound({
     datumTokenizer: Bloodhound.tokenizers.whitespace,
     queryTokenizer: Bloodhound.tokenizers.whitespace,
-    prefetch: assetsPath + 'json/typeahead.json'
+    prefetch:'../json/typeahead.json'
   });
 
   // Prefetch Example
@@ -280,4 +279,5 @@ $(function () {
       }
     }
   );
-});
+
+})

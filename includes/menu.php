@@ -36,6 +36,32 @@
                       <div data-i18n="Brands">Brands</div>
                     </a>
                   </li>
+                  <!-- suppliers -->
+                  <li class="menu-item ">
+                    <a href="suppliers" class="menu-link">
+                      <i class="menu-icon tf-icons ti ti-user-plus"></i>
+                      <div data-i18n="Suppliers">Suppliers</div>
+                    </a>
+                  </li>
+                  <li class="menu-item">
+                    <a href="javascript:void(0)" class="menu-link menu-toggle">
+                      <i class="menu-icon tf-icons ti ti-shopping-cart-plus"></i>
+                      <div data-i18n="Purchases">Purchases</div>
+                    </a>
+                        <ul class="menu-sub">
+                          <li class="menu-item">
+                            <a href="purchases" class="menu-link">
+                              <div data-i18n="List of Purchases">List Of Purchases</div>
+                            </a>
+                          </li>
+                          <li class="menu-item">
+                            <a href="add_purchase" class="menu-link">
+                              <div data-i18n="Add Purchase">Add Purchase</div>
+                            </a>
+                          </li>
+                        </ul>
+                  </li>
+
 
                 </ul>
               </div>

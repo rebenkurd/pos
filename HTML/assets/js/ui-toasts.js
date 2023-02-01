@@ -94,6 +94,8 @@ $(function () {
       $('#addBehaviorOnToastCloseClick').prop('checked', false);
     }
   });
+
+  
   $('#showtoast').click(function () {
     var shortCutFunction = $('#toastTypeGroup input:radio:checked').val(),
       isRtl = $('html').attr('dir') === 'rtl',

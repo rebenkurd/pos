@@ -1,12 +1,21 @@
 <?php 
 
-class Brand extends DbObject {
-    protected static $table = 'brands';
+class Supplier extends DbObject {
+    protected static $table = 'suppliers';
     protected static $table_fields = array(
         'id',
         'name',
-        'description',
+        'mobile',
+        'email',
+        'gst',
+        'tax',
+        'open_balance',
+        'country',
+        'state',
+        'city',
+        'postcode',
         'status',
+        'address',
         'added_by',
         'updated_by',
         'created_at',
@@ -15,7 +24,15 @@ class Brand extends DbObject {
 
     public $id;
     public $name;
-    public $description;
+    public $mobile;
+    public $email;
+    public $gst;
+    public $tax;
+    public $open_balance;
+    public $country;
+    public $state;
+    public $city;
+    public $postcode;
     public $status;
     public $added_by;
     public $updated_by;
@@ -33,17 +50,29 @@ class Brand extends DbObject {
     $columns=array(
         0 => 'id',
         1 => 'name',
-        2 => 'description',
-        3 => 'status',
-        4 => 'added_by',
-        5 => 'updated_by',
-        6 => 'created_at',
-        7 => 'updated_at'
+        2 => 'mobile',
+        3 => 'email',
+        4 => 'gst',
+        5 => 'tax',
+        6 => 'open_balance',
+        7 => 'country',
+        8 => 'state',
+        9 => 'city',
+        10 => 'postcode',
+        11 => 'address',
+        12 => 'status',
+        13 => 'added_by',
+        14 => 'updated_by',
+        15 => 'created_at',
+        16 => 'updated_at'
     );
 
     if(isset($_POST['search']['value'])){
         $search_value=$_POST['search']['value'];
         $sql .=" WHERE name like '%".$search_value."%'";
+        $sql .=" OR mobile like '%".$search_value."%'";
+        $sql .=" OR email like '%".$search_value."%'";
+        $sql .=" OR status like '%".$search_value."%'";
     }
 
     if(isset($_POST['order'])){
@@ -64,18 +93,20 @@ class Brand extends DbObject {
     $count_rows=mysqli_num_rows($query);
     $data=array();
     while($row=mysqli_fetch_assoc($query)){
-            $sub_array=array();
-            $sub_array[]=$row['id'];
-            $sub_array[]=$row['name'];
-            $sub_array[]=$row['description'];
-            $sub_array[]=$row['status']==0? '<span class="badge bg-label-success">چالاکە</span>' : '<span class="badge bg-label-warning">ناچالاکە</span>';
-            $sub_array[]='<a href="javascript:void(0);" data-id="'.$row['id'].'" class="text-info edit_btn_brand">
-        <i class="ti ti-edit"></i>
-        </a> <a href="javascript:void(0);" data-id="'.$row['id'].'" class="text-danger delete_brand">
-        <i class="ti ti-trash"></i>
-        </a>
-        ';
-        $data[]=$sub_array;
+        $sub_array=array();
+        $sub_array[]=$row['id'];
+        $sub_array[]=$row['name'];
+        $sub_array[]=$row['mobile'];
+        $sub_array[]=$row['email'];
+        $sub_array[]=$row['status'];
+
+    $sub_array[]='<a href="javascript:void(0);" data-id="'.$row['id'].'" class="text-info edit_btn_supplier">
+    <i class="ti ti-edit"></i>
+    </a> <a href="javascript:void(0);" data-id="'.$row['id'].'" class="text-danger delete_supplier">
+    <i class="ti ti-trash"></i>
+    </a>
+    ';
+    $data[]=$sub_array;
 
     }
 
@@ -89,7 +120,6 @@ class Brand extends DbObject {
     echo json_encode($output);
 
 }
-    
 
     
 
