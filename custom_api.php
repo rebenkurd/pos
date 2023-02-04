@@ -59,7 +59,6 @@ if(isset($_POST['edit'])){
 if(isset($_POST['add'])){
     $custom=new Custom();
     $custom->name=$_POST["name"];
-    $custom->id=$_POST["barcode"];
     $custom->quantity=$_POST["qty"];
     $custom->unit=$_POST["unit"];
     $custom->price=$_POST["price"];

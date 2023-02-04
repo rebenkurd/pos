@@ -56,6 +56,8 @@ if(isset($_POST['add'])){
     $payment->pay_note=$_POST["pay_note"];
     $payment->added_by='rebin';
     $payment->created_at=date("Y-m-d H:i:s");
+    if($_POST["pay_type"] != ""){
+    if($_POST["pay_amount"] != "" && $_POST['pay_amount'] > 0 ){
     if($payment->save()){
         $data=array('success'=>'true',);
         echo json_encode($data);
@@ -63,7 +65,44 @@ if(isset($_POST['add'])){
         $data=array('success'=>'false',);
         echo json_encode($data);
     }
+    }}
+}
 
+if(isset($_POST['pay_now'])){
+    $purchase_code=$_POST["purchase_code"];
+    $pay_amount=$_POST["pay_amount"];
+    $purchase=Purchase::findbyCode($purchase_code);
+
+    $payment=new Payment();
+    $payment->purchase_code=$purchase_code;
+    $payment->pay_amount=$pay_amount;
+    $payment->pay_type=$_POST["pay_type"];
+    $payment->pay_note=$_POST["pay_note"];
+    $payment->added_by='rebin';
+    $payment->created_at=date("Y-m-d H:i:s");
+    $gtotal=$purchase->grand_total;
+    if($pay_amount>0 || $pay_amount != "" || $pay_amount !=null){
+        if($pay_amount > $gtotal){
+            $purchase->due=0;
+        }else{
+            $due=$gtotal-$pay_amount;
+            $purchase->due=$due;
+        }
+    }else{
+        $purchase->due=$_POST["grand_total"];
+    }
+    
+    if($_POST["pay_type"] != ""){
+    if($_POST["pay_amount"] != "" && $_POST['pay_amount'] > 0 ){
+    if($payment->save()){
+        $purchase->updateByCode();
+        $data=array('success'=>'true',);
+        echo json_encode($data);
+    }else{
+        $data=array('success'=>'false',);
+        echo json_encode($data);
+    }
+    }}
 }
 
 

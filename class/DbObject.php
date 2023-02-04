@@ -133,6 +133,23 @@ class DbObject{
         return (mysqli_affected_rows($database->connection)==1)?true:false;
     }
 
+    public function updateByCode(){
+        global $database;
+        $properties=$this->properties();
+        $properties_pairs=array();
+        foreach($properties as $key => $value){
+            $properties_pairs[]="{$key}='{$value}'";
+        }
+
+        $sql="UPDATE ".static::$table." SET ";
+        $sql .=implode(", ",$properties_pairs);
+        $sql .=" WHERE purchase_code='".$database->es($this->purchase_code)."'";
+        $database->query($sql);
+
+        return (mysqli_affected_rows($database->connection)==1)?true:false;
+    }
+
+
     public function delete(){
         global $database;
         $sql = "DELETE FROM ".static::$table." WHERE id='".$database->es($this->id)."' LIMIT 1";

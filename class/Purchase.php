@@ -5,7 +5,7 @@ class Purchase extends DbObject {
     protected static $table_fields = array(
         'id',
         'purchase_code',
-        'other_charges	',
+        'other_charges',
         'total_quantity',
         'discount_all',
         'discount',
@@ -17,7 +17,8 @@ class Purchase extends DbObject {
         'status',
         'purchase_date',
         'supplier',
-        'payment',
+        'pay_status',
+        'due',
         'added_by',
         'updated_by',
         'created_at',
@@ -35,10 +36,12 @@ class Purchase extends DbObject {
     public $grand_total;
     public $ref_num;
     public $status;
+    public $pay_status;
     public $note;
     public $purchase_date;
     public $supplier;
     public $payment;
+    public $due;
     public $added_by;
     public $updated_by;
     public $created_at;
@@ -57,10 +60,11 @@ class Purchase extends DbObject {
         0 => 'id',
         1 => 'purchase_date',
         2 => 'purchase_code',
-        3 => 'status',
+        3 => 'pay_status',
         4 => 'ref_num',
         5 => 'grand_total',
-        6 => 'added_by',
+        6 => 'due',
+        7 => 'added_by',
         // 7 => 'unit_cost',
         // 8 => 'total_amount',
         // 9 => 'code',
@@ -78,7 +82,7 @@ class Purchase extends DbObject {
         $search_value=$_POST['search']['value'];
         $sql .=" WHERE purchase_date like '%".$search_value."%'";
         $sql .=" OR purchase_code like '%".$search_value."%'";
-        $sql .=" OR status like '%".$search_value."%'";
+        $sql .=" OR pay_status like '%".$search_value."%'";
         $sql .=" OR ref_num like '%".$search_value."%'";
         $sql .=" OR grand_total like '%".$search_value."%'";
 
@@ -106,17 +110,26 @@ class Purchase extends DbObject {
         $sub_array[]=$row['id'];
         $sub_array[]=$row['purchase_date'];
         $sub_array[]=$row['purchase_code'];
-        $sub_array[]=$row['status'];
+        $sub_array[]=$row['due'] <= 0 ? '<span class="badge bg-label-success">پارە دراوە</span>' : '<span class="badge bg-label-danger">پارە نەدراوە</span>';
         $sub_array[]=$row['ref_num'];
         $sub_array[]=$row['grand_total'];
+        $sub_array[]=$row['due'];
         $sub_array[]=$row['added_by'];
-
-    $sub_array[]='<a href="javascript:void(0);" data-id="'.$row['id'].'" class="text-info edit_btn_custom">
-    <i class="ti ti-edit"></i>
-    </a> <a href="javascript:void(0);" data-id="'.$row['id'].'" class="text-danger delete_custom">
-    <i class="ti ti-trash"></i>
-    </a>
-    ';
+    $sub_array[]='<div class="d-inline-block">
+    <a href="javascript:;" class="btn btn-sm btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="text-primary ti ti-dots"></i></a>
+        <div class="dropdown-menu dropdown-menu m-0 fs-6">
+            <a href="invoice.php?id='.$row['purchase_code'].'" class="dropdown-item"><i class="ti ti-eye"></i> بینینی کڕین</a>
+            <a href="edit_purchase.php?id='.$row['purchase_code'].'" class="dropdown-item"><i class="ti ti-edit"></i> گۆڕانکاری</a>
+            <a href="view_payment.php?id='.$row['purchase_code'].'" class="dropdown-item"><i class="ti ti-cash-banknote"></i> پێشاندانی پارەدان</a>
+            <a href="javascript:;" class="dropdown-item btn_pay_now"><i class="ti ti-cash-banknote-off"></i> ئێستا پارەبدە</a>
+            <div class="dropdown-divider"></div>
+            <a href="javascript:;" class="dropdown-item"><i class="ti ti-printer"></i> چاپکردن</a>
+            <a href="javascript:;" class="dropdown-item"><i class="ti ti-file-text"></i> PDF</a>
+            <div class="dropdown-divider"></div>
+            <a href="return_purchase.php?id='.$row['purchase_code'].'" class="dropdown-item"><i class="ti ti-arrow-back-up"></i> گەڕاندنەوەی کڕین</a>
+            <a href="javascript:;" class="dropdown-item text-danger delete_purchase" data-id="'.$row['id'].'"><i class="ti ti-trash"></i> Delete</a>
+        </div>
+    </div>';
     $data[]=$sub_array;
 
     }

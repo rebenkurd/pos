@@ -374,6 +374,7 @@ function(e){
               $("#alert").fadeOut(4000); 
               mytable = $('#supplier_table').DataTable();
               mytable.draw();
+              $("#add_supplier")[0].reset();
              }else{
               $("#alert").html('<div class="alert alert-danger" role="alert">هەڵەیەک ڕویدا تکایە دووبارەی بکەرەوە</div>');
               try{
