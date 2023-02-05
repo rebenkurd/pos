@@ -24,10 +24,19 @@
                             <!-- add purchase -->
                             <form action="" id="add_purchase">
                                 <?php
-                                $get_num= str_replace("PR","",rand(1,99999));
-                                $id_inc= $get_num+1;
-                                $get_str= str_pad($id_inc,5,0,STR_PAD_LEFT);
-                                 echo  '<input type="hidden" id="purchase_code" value="PR'.$get_str.'" />';                                
+                                    $check_id=Purchase::fetchAll();
+                                    if(Purchase::numRows()>0){
+                                        foreach($check_id as $check){
+                                            $id=$check->id;
+                                            $get_numbers=str_replace("PR","",$id);
+                                            $id_increase=$get_numbers+1;
+                                            $get_string=str_pad($id_increase,5,0,STR_PAD_LEFT);
+                                            $new_id="PR".$get_string;
+                                            echo  '<input type="hidden" id="purchase_code" value="'.$new_id.'" />';     
+                                    }
+                                }else{
+                                    echo  '<input type="hidden" id="purchase_code" value="PR00001" />';     
+                                }                           
                                 ?>
                             <div class="row">
                                 <div class="col-xl-3 col-lg-6 col-md-6">
@@ -50,7 +59,7 @@
                                         <label for="purchase_date"
                                             class="form-label">بەرواری کڕین <span class="text-danger">*</span></label>
                                         <input type="date" class="form-control"
-                                            id="purchase_date" name="purchase_date" />
+                                            id="purchase_date" name="purchase_date" value="<?php echo date('Y-m-d'); ?>" />
                                     </div>
                                 </div>
                                 <div class="col-xl-3 col-lg-6 col-md-6">

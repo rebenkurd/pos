@@ -24,6 +24,7 @@
                         <div class="card-datatable text-nowrap">
                             <table class="table" id="user_table">
                                 <thead>
+                                    <th></th>
                                     <th>وێنە</th>
                                     <th>ناو</th>
                                     <th>ئیمەیڵ</th>

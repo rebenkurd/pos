@@ -27,7 +27,7 @@ class Payment extends DbObject {
 
 
 
-    public static function fetch(){
+    public static function fetchPayment($purchase_code){
         global $database;
         $outpu=array();
         $sql="SELECT * FROM ".static::$table;
@@ -71,21 +71,19 @@ class Payment extends DbObject {
         $count_rows=mysqli_num_rows($query);
         $data=array();
         while($row=mysqli_fetch_assoc($query)){
+            if($row['purchase_code']==$purchase_code){
             $sub_array=array();
             $sub_array[]=$row['id'];
             $sub_array[]=$row['created_at'];
             $sub_array[]=$row['pay_type'];
             $sub_array[]=$row['pay_note'];
             $sub_array[]=$row['pay_amount'];
-    
-        $sub_array[]='<a href="javascript:void(0);" data-id="'.$row['id'].'" class="text-danger delete_payment">
-        <i class="ti ti-trash"></i>
-        </a>
-        ';
-        $data[]=$sub_array;
-    
+            $sub_array[]='<a href="javascript:void(0);" data-id="'.$row['id'].'" class="text-danger delete_payment">
+            <i class="ti ti-trash"></i>
+            </a>';
+            $data[]=$sub_array;
+            }
         }
-    
         $output=array(
             'draw'=>intval($_POST['draw']),
             'recordsTotal'=>$count_rows,

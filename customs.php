@@ -24,6 +24,7 @@
 <table class="table" id="custom_table">
     <thead>
         <tr>
+            <th></th>
             <th>کۆد</th>
             <th>ناو</th>
             <th>بڕاند</th>

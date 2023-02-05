@@ -8,6 +8,7 @@ class Database{
 
     public function __construct(){
         $this->openDbConnect();
+        $this->connection->set_charset("utf8");
     }
 
     // function of database connetion

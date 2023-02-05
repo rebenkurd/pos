@@ -1,5 +1,5 @@
 
-$(function(){
+$(document).ready(function(){
   $('#supplier_table').DataTable({
     "fnCreatedRow": function(nRow,aData,iDataIndex){
         $(nRow).attr('id',aData[0]);
@@ -25,12 +25,26 @@ $(function(){
         { data: 5 },
     ],
     columnDefs: [{
-          targets: 4,
-          searchable: false,
-          visible: false
-      },
-  ],
-  dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+      targets: [5],
+      searchable: false,
+      orderable: false
+  },
+    {
+    // For Checkboxes
+    targets: 0,
+    orderable: false,
+    searchable: false,
+    responsivePriority: 3,
+    checkboxes: true,
+    render: function (id) {
+      return '<input type="checkbox" id="check" name="check[]" value="'+id+'" class="dt-checkboxes form-check-input">';
+    },
+    checkboxes: {
+      selectAllRender: '<input type="checkbox" id="check_all" class="form-check-input">'
+    }
+  },
+],
+  dom: '<"card-header flex-column flex-md-row"<"head-label text-center"<"supplier">><"dt-action-buttons text-end pt-3 pt-md-0"<"delete_all_supplier"B>>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
 displayLength:10,
 lengthMenu: [5, 10, 25, 50, 75, 100,250,500,750,1000],    
 buttons: [
@@ -182,7 +196,8 @@ buttons: [
 ],
 
 });
-  $('div.head-label').html('<h5 class="card-title mb-0">لیستی دابینکەرەکان</h5>');
+  $('div.supplier').html('<h5 class="card-title mb-0">لیستی دابینکەرەکان</h5>');
+  $('div.delete_all_supplier div.dt-buttons').append('<button type="button" class="btn btn-danger waves-effect waves-light me-3" onclick="deleteAllSupplier()" id="delete_all" ><i class="ti ti-trash"></i></button>');
 })
 
 
@@ -642,3 +657,23 @@ if(confirm("دڵنیایت لە سرینەوەی؟")){
   }) }
 })
 
+function deleteAllSupplier(){
+  var checked=$('#check[name="check[]"]').filter(':checked');
+  var checked_id=new Array();
+  checked.each(function(){
+      checked_id.push($(this).val());
+  });
+  for (let i = 0; i < checked_id.length; i++) {
+  $.ajax({
+      url: 'supplier_api.php',
+      type: 'POST',
+      data: {
+          id:checked_id[i],
+          delete:true
+      },success: function(data){
+        mytable = $('#supplier_table').DataTable();
+        mytable.draw();
+      }
+  })
+}
+}

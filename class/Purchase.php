@@ -110,7 +110,13 @@ class Purchase extends DbObject {
         $sub_array[]=$row['id'];
         $sub_array[]=$row['purchase_date'];
         $sub_array[]=$row['purchase_code'];
-        $sub_array[]=$row['due'] <= 0 ? '<span class="badge bg-label-success">پارە دراوە</span>' : '<span class="badge bg-label-danger">پارە نەدراوە</span>';
+        if($row['due'] > 0 && $row['due'] < $row['grand_total']){
+            $sub_array[]='<span class="badge bg-label-warning">بەشێکی ماوە</span>';
+        }elseif($row['due'] <= 0 ){
+            $sub_array[]='<span class="badge bg-label-success">هەمووی دراوە</span>';
+        }else{
+            $sub_array[]='<span class="badge bg-label-danger">هیچی نە دراوە</span>';
+        }
         $sub_array[]=$row['ref_num'];
         $sub_array[]=$row['grand_total'];
         $sub_array[]=$row['due'];
@@ -120,7 +126,7 @@ class Purchase extends DbObject {
         <div class="dropdown-menu dropdown-menu m-0 fs-6">
             <a href="invoice.php?id='.$row['purchase_code'].'" class="dropdown-item"><i class="ti ti-eye"></i> بینینی کڕین</a>
             <a href="edit_purchase.php?id='.$row['purchase_code'].'" class="dropdown-item"><i class="ti ti-edit"></i> گۆڕانکاری</a>
-            <a href="view_payment.php?id='.$row['purchase_code'].'" class="dropdown-item"><i class="ti ti-cash-banknote"></i> پێشاندانی پارەدان</a>
+            <a href="javascript:;" class="dropdown-item btn_view_payment"><i class="ti ti-cash-banknote"></i> پێشاندانی پارەدان</a>
             <a href="javascript:;" class="dropdown-item btn_pay_now"><i class="ti ti-cash-banknote-off"></i> ئێستا پارەبدە</a>
             <div class="dropdown-divider"></div>
             <a href="javascript:;" class="dropdown-item"><i class="ti ti-printer"></i> چاپکردن</a>

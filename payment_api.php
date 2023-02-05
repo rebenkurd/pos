@@ -3,7 +3,7 @@
 require_once "configs/initialized.php";
 
 if(isset($_POST['fetch'])){
-    echo Payment::fetch();
+    echo Payment::fetchPayment($_POST['purchase_code']);
 }
 
 // if(isset($_POST['get'])){
@@ -81,10 +81,14 @@ if(isset($_POST['pay_now'])){
     $payment->added_by='rebin';
     $payment->created_at=date("Y-m-d H:i:s");
     $gtotal=$purchase->grand_total;
+    $due_pay=$purchase->due;
     if($pay_amount>0 || $pay_amount != "" || $pay_amount !=null){
         if($pay_amount > $gtotal){
             $purchase->due=0;
-        }else{
+        }elseif($due_pay < $gtotal){
+            $due=$due_pay-$pay_amount;
+            $purchase->due=$due;
+        } else{
             $due=$gtotal-$pay_amount;
             $purchase->due=$due;
         }

@@ -19,10 +19,10 @@
 
 
     <!-- Category list start -->
-    <div class="col-md-10 mx-auto">
+    <div class="col-md-10 mx-auto" id="category_page">
       <div class="card">
         <div class="card-datatable text-nowrap">
-          <table class=" table" id="category_table">
+          <table class="table" id="category_table">
             <thead>
               <tr>
                 <th></th>

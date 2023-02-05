@@ -1,34 +1,35 @@
 
-$(function(){
-    $('#category_table').DataTable({
+$(document).ready(function(){
+  $('#category_table').DataTable({
       "fnCreatedRow": function(nRow,aData,iDataIndex){
           $(nRow).attr('id',aData[0]);
       },
       processing: true,
       serverSide: true,
       pagin:true,
-      order:[],
       responsive: true,
+      order:[],
       ajax: {
           url:'category_api.php',
           type: 'POST',
           data:{
               fetch:true,
           }
-      },
+      },   
       columns: [
-        { data: 0 },
-        { data: 1 },
-        { data: 2 },
-        { data: 3 },
-        { data: 4 },
-        { data: 5 },
+          { data: 0 },
+          { data: 1 },
+          { data: 2 },
+          { data: 3 },
+          { data: 4 },
       ],
-      columnDefs: [{
-        targets: 5,
+      columnDefs: [
+        {
+        targets: [4],
         searchable: false,
-        visible: false
-    },        {
+        orderable: false
+    },
+      {
       // For Checkboxes
       targets: 0,
       orderable: false,
@@ -43,8 +44,7 @@ $(function(){
       }
     },
 ],
-
-dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+dom: '<"card-header flex-column flex-md-row"<"head-label text-center"<"category">><"dt-action-buttons text-end pt-3 pt-md-0"<"delete_all_category"B>>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
 displayLength:10,
 lengthMenu: [5, 10, 25, 50, 75, 100,250,500,750,1000],    
 buttons: [
@@ -58,7 +58,7 @@ buttons: [
       text: '<i class="ti ti-printer me-1" ></i>چاپکردن',
       className: 'dropdown-item',
       exportOptions: {
-        columns: [1,2],
+        columns: [1,2,],
         // prevent avatar to be display
         format: {
           body: function (inner, coldex, rowdex) {
@@ -95,7 +95,7 @@ buttons: [
       text: '<i class="ti ti-file-text me-1" ></i>Csv',
       className: 'dropdown-item',
       exportOptions: {
-        columns: [1,2],
+        columns: [1,2,],
         // prevent avatar to be display
         format: {
           body: function (inner, coldex, rowdex) {
@@ -119,7 +119,7 @@ buttons: [
       text: 'Excel',
       className: 'dropdown-item',
       exportOptions: {
-        columns: [1,2],
+        columns: [1,2,],
         // prevent avatar to be display
         format: {
           body: function (inner, coldex, rowdex) {
@@ -142,8 +142,9 @@ buttons: [
       extend: 'pdf',
       text: '<i class="ti ti-file-description me-1"></i>Pdf',
       className: 'dropdown-item',
+      "sCharSet": "utf8",
       exportOptions: {
-        columns: [1,2],
+        columns: [1,2,],
         // prevent avatar to be display
         format: {
           body: function (inner, coldex, rowdex) {
@@ -167,7 +168,7 @@ buttons: [
       text: '<i class="ti ti-copy me-1" ></i>کۆپی',
       className: 'dropdown-item',
       exportOptions: {
-        columns: [1,2],
+        columns: [1,2,],
         // prevent avatar to be display
         format: {
           body: function (inner, coldex, rowdex) {
@@ -192,14 +193,13 @@ buttons: [
  {
     text: '<span data-bs-toggle="modal" data-bs-target="#add_category_modal"><i class="ti ti-plus me-sm-1"></i> <span class="d-none d-sm-inline-block">زیادکردنی جۆر</span></span>',
     className: 'btn btn-primary waves-effect waves-light me-3',
-  }
+  } 
 ],
 
 });
-$('div.head-label').html('<h5 class="card-title mb-0">لیستی جۆرەکان</h5>');
-$('div.dt-buttons').append('<button type="button" class="btn btn-danger waves-effect waves-light me-3" onclick="deleteAll()" id="delete_all" ><i class="ti ti-trash"></i></button>');
-      
-  })
+  $('div.category').html('<h5 class="card-title mb-0">لیستی جۆرەکان</h5>');
+  $('div.delete_all_category div.dt-buttons').append('<button type="button" class="btn btn-danger waves-effect waves-light me-3" onclick="deleteAllCategory()" id="delete_all" ><i class="ti ti-trash"></i></button>');
+})
 
 $(document).on('submit','#add_category',
 function(e){
@@ -402,7 +402,7 @@ $("#category_table").on('click','.edit_btn_category',function(event){
         }) }
     })
   
-    function deleteAll(){
+    function deleteAllCategory(){
       var checked=$('#check[name="check[]"]').filter(':checked');
       var checked_id=new Array();
       checked.each(function(){

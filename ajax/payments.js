@@ -1,5 +1,5 @@
 
-$(function(){
+$(document).ready(function(){
     $('#payment_table').DataTable({
       "fnCreatedRow": function(nRow,aData,iDataIndex){
           $(nRow).attr('id',aData[0]);
@@ -16,6 +16,7 @@ $(function(){
           type: 'POST',
           data:{
               fetch:true,
+              purchase_code:$("#purchase_code").val()
           }
       },
       columns: [
@@ -166,6 +167,22 @@ $("#purchase_table").on('click','.btn_pay_now',function(event){
             }
         })
     })
+
+    $("#purchase_table").on('click','.btn_view_payment',function(event){
+        $('#view_payment_modal').modal('show');
+        var id=$(this).closest('tr').attr('id');
+        $.ajax({
+            url:"purchase_api.php",
+            data:{
+                id:id,
+                view_payment:true
+            },
+            type:"POST",
+            success:function(data){
+                $("#view_payment_table tbody").html(data);
+          }
+        })
+        })
     
 // $(document).on('submit','#edit_purchase',function(e){
 //     e.preventDefault();

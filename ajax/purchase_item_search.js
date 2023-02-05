@@ -29,12 +29,11 @@ $(function(){
 	});
 
  
-$("#search-result").on('click',function(event){
-    event.preventDefault()
-    var id = $(event.target).attr('id');
+$("#search-result").on('click',function(e){
+    let id=$(e.target).attr('id');
     $.ajax({
       url:"purchase_api.php",
-  type:"POST",
+    type:"POST",
       data:{
           id:id,
           fetch_all:true

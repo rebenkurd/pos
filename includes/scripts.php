@@ -55,7 +55,8 @@
   <!-- Barcode -->
   <script src="<?php echo ASSETS_PATH;?>/vendor/libs/scanner/qrcodelib.js"></script>
   <script src="<?php echo ASSETS_PATH;?>/vendor/libs/scanner/webcodecamjquery.js"></script>
-
+    <!-- payments -->
+    <script src="ajax/payments.js"></script> 
     <!-- users -->
     <script src="ajax/users.js"></script> 
     <!-- categories -->
@@ -69,8 +70,6 @@
     <!-- purchases -->
     <script src="ajax/purchase_item_search.js"></script> 
     <script src="ajax/purchases.js"></script> 
-    <!-- payments -->
-    <script src="ajax/payments.js"></script> 
     <!-- items -->
     <script src="ajax/items.js"></script> 
     <script src="ajax/company_profile.js"></script> 

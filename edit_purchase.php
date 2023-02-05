@@ -161,13 +161,13 @@
                                             <div class="col-4"><h6>خەرجیەکانی تر : </h6></div>
                                             <div class="col-6">
                                         <input type="text" class="form-control"
-                                            id="tax_amount" name="tax_amount"/>
+                                            id="tax_amount" name="tax_amount" value="<?php echo $purchase->tax_amount ?>"/>
                                             </div>
                                             <div class="col-2">
                                                 <select class="form-control" name="" id="tax">
-                                                    <option value="5">5%</option>
-                                                    <option value="10">10%</option>
-                                                    <option value="15">15%</option>
+                                                    <option value="5" <?php echo $purchase->tax==5?"selected":null; ?>>5%</option>
+                                                    <option value="10" <?php echo $purchase->tax==10?"selected":null; ?>>10%</option>
+                                                    <option value="15" <?php echo $purchase->tax==15?"selected":null; ?>>15%</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -177,7 +177,7 @@
                                             <div class="col-4"><h6>داشکاندنی هەمووی : </h6></div>
                                             <div class="col-6">
                                         <input type="text" class="form-control"
-                                            id="discount" name="discount" />
+                                            id="discount" name="discount" value="<?php echo $purchase->discount; ?>" />
                                             </div>
                                             <div class="col-2">
                                             <select class="form-control" name="" id="discount_type">
@@ -189,7 +189,7 @@
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label" for="purchase_note">تێبینی : </label>
-                                        <textarea name="purchase_note" id="purchase_note" class="form-control"></textarea>
+                                        <textarea name="purchase_note" id="purchase_note" class="form-control"><?php echo $purchase->note ?></textarea>
                                     </div>
                                 </div>
                                 <div class="col-xl-6 col-lg-6 col-md-6">
@@ -239,7 +239,10 @@
                                             <td><?php echo $payment->pay_note; ?></td>
                                             <td><a href="javascript:void(0);" data-id="<?php echo $row['id'];?>" class="text-danger delete_payment"><i class="ti ti-trash"></i></a></td>
                                         </tr>
-                                            <?php }} } ?>
+                                            <?php 
+                                        }
+                                            } 
+                                                } ?>
                                         </table>
                                 </div>
                             </div> 

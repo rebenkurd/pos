@@ -157,6 +157,13 @@ class DbObject{
 
         return (mysqli_affected_rows($database->connection)==1)?true:false;
     }
+    public function deleteByCode(){
+        global $database;
+        $sql = "DELETE FROM ".static::$table." WHERE purchase_code='".$database->es($this->purchase_code)."'";
+        $database->query($sql);
+
+        return (mysqli_affected_rows($database->connection)==1)?true:false;
+    }
 
     
 

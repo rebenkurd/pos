@@ -15,6 +15,35 @@ if(isset($_POST['get_due'])){
     echo json_encode($purchase);
 }
     
+if(isset($_POST['view_payment'])){
+    if(isset($_POST['id'])){
+        $id=$_POST['id'];
+    }
+
+    $purchase_code=Purchase::singleFetch($id)->purchase_code;
+    $payments= Payment::fetchAll();
+    $no=1;
+    if(Payment::numRows()>0){
+    foreach($payments as $payment){
+        if($payment->purchase_code==$purchase_code){
+        echo '<tr>';
+        echo '<td>'.$no++.'</td>'; 
+        echo '<td>'.$payment->created_at.'</td>'; 
+        echo '<td>'.$payment->pay_type.'</td>'; 
+        echo '<td>'.$payment->pay_amount.'</td>'; 
+        echo '<td>'.$payment->pay_note.'</td>'; 
+        echo '</tr>';
+    }else{
+        echo '<tr>';
+        echo '<td colspan="5" class="text-center">هیچ زانیاریەک نییە</td>';
+        echo '</tr>';
+    }
+}}else{
+    echo '<tr>';
+    echo '<td colspan="5" class="text-center">هیچ زانیاریەک نییە</td>';
+    echo '</tr>';
+}
+}
 
 
 
@@ -55,54 +84,112 @@ if(isset($_POST['fetch_all'])){
 }
 
 if(isset($_POST['query'])){
-    echo Custom::search($_POST['query']);
+    $custom_search= Custom::search($_POST['query']);
+    echo $custom_search;
 }
 
 
 if(isset($_POST['add'])){
-    $purchase=new Purchase();
-    $purchase->purchase_code=$_POST["purchase_code"];
-    $purchase->supplier=$_POST["supplier_id"];
-    $purchase->purchase_date=$_POST["purchase_date"];
-    $purchase->status=$_POST["supplier_status"];
-    $purchase->ref_num=$_POST["purchase_ref_num"];
-    $purchase->total_quantity=$_POST["total_quantity"];
-    $purchase->tax=$_POST["tax"];
-    $purchase->tax_amount=$_POST["tax_amount"];
-    $purchase->discount=$_POST["discount"];
-    $purchase->note=$_POST["purchase_note"];
-    $purchase->total_price=$_POST["total_price"];
-    $purchase->other_charges=$_POST["other_charges"];
-    $purchase->discount_all=$_POST["discount_all"];
-    $purchase->grand_total=$_POST["grand_total"];
-    $purchase->added_by='rebin';
-    $purchase->created_at=date("Y-m-d H:i:s");
-    $payment_amount=$_POST['pay_amount'];
-    $gtotal=$_POST["grand_total"];
-
-    if($payment_amount<0 || $payment_amount != "" || $payment_amount !=null){
-        if($payment_amount > $gtotal){
-            $purchase->due=0;
-        }else{
-            $due=$gtotal-$payment_amount;
-            $purchase->due=$due;
+    $check_id=Purchase::fetchAll();
+    if(Purchase::numRows()>0){
+        foreach($check_id as $check){
+            $id=$check->id;
+            $get_numbers=str_replace("PR","",$id);
+            $id_increase=$get_numbers+1;
+            $get_string=str_pad($id_increase,5,0,STR_PAD_LEFT);
+            $new_id="PR".$get_string;
+            $purchase=new Purchase();
+            $purchase->purchase_code=$new_id;
+            $purchase->supplier=$_POST["supplier_id"];
+            $purchase->purchase_date=$_POST["purchase_date"];
+            $purchase->status=$_POST["supplier_status"];
+            $purchase->ref_num=$_POST["purchase_ref_num"];
+            $purchase->total_quantity=$_POST["total_quantity"];
+            $purchase->tax=$_POST["tax"];
+            $purchase->tax_amount=$_POST["tax_amount"];
+            $purchase->discount=$_POST["discount"];
+            $purchase->note=$_POST["purchase_note"];
+            $purchase->total_price=$_POST["total_price"];
+            $purchase->other_charges=$_POST["other_charges"];
+            $purchase->discount_all=$_POST["discount_all"];
+            $purchase->grand_total=$_POST["grand_total"];
+            $purchase->added_by='rebin';
+            $purchase->created_at=date("Y-m-d H:i:s");
+            $payment_amount=$_POST['pay_amount'];
+            $gtotal=$_POST["grand_total"];
+        
+            if($payment_amount<0 || $payment_amount == "" || $payment_amount ==null){
+                if($payment_amount > $gtotal){
+                    $purchase->due=0;
+                }else{
+                    $due=$gtotal-$payment_amount;
+                    $purchase->due=$due;
+                }
+            }else{
+                $purchase->due=$_POST["grand_total"];
+            }
+            
+            if($_POST["pay_amount"] < $_POST["grand_total"] || $_POST["pay_amount"] == $_POST["grand_total"] || $_POST['pay_amount'] == null){
+                $purchase->pay_status=1;
+            }else{
+                $purchase->pay_status=0;
+            }
+        
+            if($purchase->save()){
+                $data=array('success'=>'true',);
+                echo json_encode($data);
+            }else{
+                $data=array('success'=>'false');
+                echo json_encode($data);
+            }
+        
         }
     }else{
-        $purchase->due=$_POST["grand_total"];
-    }
+        $purchase=new Purchase();
+        $purchase->purchase_code='PR00001';
+        $purchase->supplier=$_POST["supplier_id"];
+        $purchase->purchase_date=$_POST["purchase_date"];
+        $purchase->status=$_POST["supplier_status"];
+        $purchase->ref_num=$_POST["purchase_ref_num"];
+        $purchase->total_quantity=$_POST["total_quantity"];
+        $purchase->tax=$_POST["tax"];
+        $purchase->tax_amount=$_POST["tax_amount"];
+        $purchase->discount=$_POST["discount"];
+        $purchase->note=$_POST["purchase_note"];
+        $purchase->total_price=$_POST["total_price"];
+        $purchase->other_charges=$_POST["other_charges"];
+        $purchase->discount_all=$_POST["discount_all"];
+        $purchase->grand_total=$_POST["grand_total"];
+        $purchase->added_by='rebin';
+        $purchase->created_at=date("Y-m-d H:i:s");
+        $payment_amount=$_POST['pay_amount'];
+        $gtotal=$_POST["grand_total"];
     
-    if($_POST["pay_amount"] < $_POST["grand_total"] || $_POST["pay_amount"] == $_POST["grand_total"] || $_POST['pay_amount'] == null){
-        $purchase->pay_status=1;
-    }else{
-        $purchase->pay_status=0;
-    }
-
-    if($purchase->save()){
-        $data=array('success'=>'true',);
-        echo json_encode($data);
-    }else{
-        $data=array('success'=>'false');
-        echo json_encode($data);
+        if($payment_amount<0 || $payment_amount == "" || $payment_amount ==null){
+            if($payment_amount > $gtotal){
+                $purchase->due=0;
+            }else{
+                $due=$gtotal-$payment_amount;
+                $purchase->due=$due;
+            }
+        }else{
+            $purchase->due=$_POST["grand_total"];
+        }
+        
+        if($_POST["pay_amount"] < $_POST["grand_total"] || $_POST["pay_amount"] == $_POST["grand_total"] || $_POST['pay_amount'] == null){
+            $purchase->pay_status=1;
+        }else{
+            $purchase->pay_status=0;
+        }
+    
+        if($purchase->save()){
+            $data=array('success'=>'true',);
+            echo json_encode($data);
+        }else{
+            $data=array('success'=>'false');
+            echo json_encode($data);
+        }
+    
     }
 
 }
@@ -150,13 +237,15 @@ if(isset($_POST['edit'])){
 if(isset($_POST['delete'])){
     $id = $_POST['id'];
     $purchase=Purchase::singleFetch($id);
+    $purchase_code=$purchase->purchase_code;
     if($purchase->delete()){
+        Item::findbyCode($purchase_code)->deleteByCode();
+        Payment::findbyCode($purchase_code)->deleteByCode();
         $data = array(
             'success'=>'true',
         );
         echo json_encode($data);
-    }
-    else{
+    }else{
         $data = array(
             'success'=>'false',
         );

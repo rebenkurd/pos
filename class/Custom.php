@@ -58,7 +58,7 @@ class Custom extends DbObject {
 
  public static function fetch(){
     global $database;
-    $outpu=array();
+    $output=array();
     $sql="SELECT * FROM ".static::$table;
     $res=$database->connection->query($sql);
     $total_rows=mysqli_num_rows($res);

@@ -1,6 +1,6 @@
 
-$(function(){
-    $('#brand_table').DataTable({
+$(document).ready(function(){
+  $('#brand_table').DataTable({
       "fnCreatedRow": function(nRow,aData,iDataIndex){
           $(nRow).attr('id',aData[0]);
       },
@@ -17,19 +17,34 @@ $(function(){
           }
       },   
       columns: [
+          { data: 0 },
           { data: 1 },
           { data: 2 },
           { data: 3 },
           { data: 4 },
       ],
-
-      columnDefs: [{
-        targets: 4,
+      columnDefs: [
+        {
+        targets: [4],
         searchable: false,
-        visible: false
+        orderable: false
+    },
+      {
+      // For Checkboxes
+      targets: 0,
+      orderable: false,
+      searchable: false,
+      responsivePriority: 3,
+      checkboxes: true,
+      render: function (id) {
+        return '<input type="checkbox" id="check" name="check[]" value="'+id+'" class="dt-checkboxes form-check-input">';
+      },
+      checkboxes: {
+        selectAllRender: '<input type="checkbox" id="check_all" class="form-check-input">'
+      }
     },
 ],
-dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+dom: '<"card-header flex-column flex-md-row"<"head-label text-center"<"brand">><"dt-action-buttons text-end pt-3 pt-md-0"<"delete_all_brand"B>>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
 displayLength:10,
 lengthMenu: [5, 10, 25, 50, 75, 100,250,500,750,1000],    
 buttons: [
@@ -181,8 +196,9 @@ buttons: [
 ],
 
 });
-$('div.head-label').html('<h5 class="card-title mb-0">لیستی بڕاندەکان</h5>');
-  })
+  $('div.brand').html('<h5 class="card-title mb-0">لیستی بڕاندەکان</h5>');
+  $('div.delete_all_brand div.dt-buttons').append('<button type="button" class="btn btn-danger waves-effect waves-light me-3" onclick="deleteAllBrand()" id="delete_all" ><i class="ti ti-trash"></i></button>');
+})
 
 
 $(document).on('submit','#add_brand',
@@ -389,3 +405,23 @@ $(document).on('click','.delete_brand',function(event){
 
 
   
+function deleteAllBrand(){
+  var checked=$('#check[name="check[]"]').filter(':checked');
+  var checked_id=new Array();
+  checked.each(function(){
+      checked_id.push($(this).val());
+  });
+  for (let i = 0; i < checked_id.length; i++) {
+  $.ajax({
+      url: 'brand_api.php',
+      type: 'POST',
+      data: {
+          id:checked_id[i],
+          delete:true
+      },success: function(data){
+        mytable = $('#brand_table').DataTable();
+        mytable.draw();
+      }
+  })
+}
+}

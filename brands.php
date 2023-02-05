@@ -25,6 +25,7 @@
           <table class="table" id="brand_table">
             <thead>
               <tr>
+                <th></th>
                 <th>ناو</th>
                 <th>دەربارە</th>
                 <th>دۆخ</th>
