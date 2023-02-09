@@ -17,7 +17,9 @@ class Purchase extends DbObject {
         'status',
         'purchase_date',
         'supplier',
-        'pay_status',
+        'return',
+        'return_status',
+        'return_date',
         'due',
         'added_by',
         'updated_by',
@@ -36,11 +38,11 @@ class Purchase extends DbObject {
     public $grand_total;
     public $ref_num;
     public $status;
-    public $pay_status;
+    public $return_status;
+    public $return_date;
     public $note;
     public $purchase_date;
     public $supplier;
-    public $payment;
     public $due;
     public $added_by;
     public $updated_by;
@@ -58,31 +60,33 @@ class Purchase extends DbObject {
 
     $columns=array(
         0 => 'id',
-        1 => 'purchase_date',
-        2 => 'purchase_code',
-        3 => 'pay_status',
-        4 => 'ref_num',
-        5 => 'grand_total',
-        6 => 'due',
-        7 => 'added_by',
-        // 7 => 'unit_cost',
-        // 8 => 'total_amount',
-        // 9 => 'code',
-        // 10 => 'status',
-        // 10 => 'purchase_date',
-        // 11 => 'supplier',
-        // 12 => 'payment',
-        // 13 => 'added_by',
-        // 14 => 'updated_by',
-        // 15 => 'created_at',
-        // 16 => 'updated_at'
+        1 => 'purchase_code',
+        2 => 'other_charges',
+        3 => 'total_quantity',
+        4 => 'discount_all',
+        5 => 'discount',
+        6 => 'tax',
+        7 => 'tax_amount',
+        8 => 'grand_total',
+        9 => 'ref_num',
+        10 => 'note',
+        11 => 'status',
+        12 => 'purchase_date',
+        13 => 'supplier',
+        14 => 'return',
+        15 => 'return_status',
+        16 => 'return_date',
+        17 => 'due',
+        18 => 'added_by',
+        19 => 'updated_by',
+        20 => 'created_at',
+        21 => 'updated_at'
     );
 
     if(isset($_POST['search']['value'])){
         $search_value=$_POST['search']['value'];
         $sql .=" WHERE purchase_date like '%".$search_value."%'";
         $sql .=" OR purchase_code like '%".$search_value."%'";
-        $sql .=" OR pay_status like '%".$search_value."%'";
         $sql .=" OR ref_num like '%".$search_value."%'";
         $sql .=" OR grand_total like '%".$search_value."%'";
 

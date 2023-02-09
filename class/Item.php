@@ -4,6 +4,7 @@ class Item extends DbObject {
     protected static $table = 'items';
     protected static $table_fields = array(
         'id',
+        'custom_id',
         'name',
         'price',
         'discount',
@@ -21,6 +22,7 @@ class Item extends DbObject {
     );
 
     public $id;
+    public $custom_id;
     public $name;
     public $price;
     public $discount;

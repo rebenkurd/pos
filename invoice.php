@@ -14,7 +14,7 @@
         <!-- / Menu -->
         <!-- Content -->
         <div class="container-xxl flex-grow-1 container-p-y">
-            <form action="">
+            <form action="" id="invoice">
             <div class="row">
             <!-- View sales -->
             <!-- purchase list start -->
@@ -120,7 +120,7 @@
                                 <div class="col-xl-12">
                                 <div class="card-datatable text-nowrap">
                                     <h6>زانیاری پارەدانی پێشوو :</h6>
-                                    <table class="table" id="payment_table">
+                                    <table class="table" id="invoice_payment_table">
                                         <thead class="bg-secondary">
                                             <tr>
                                                 <th class="text-white">#</th>
@@ -161,10 +161,10 @@
                     </div>
                     <div class="row">
                         <div class="co-xl-12">
-                            <button type="button" id="inovice_update" class="btn btn-info" >گۆڕانکاری</button>
+                            <a href="edit_purchase.php?id=<?php echo $id;?>" type="button" class="btn btn-info" >گۆڕانکاری</a>
                             <button type="button" id="inovice_barcode" class="btn btn-secondary">باڕکۆد</button>
-                            <button type="button" id="inovice_print" class="btn btn-warning">چاپکردن</button>
-                            <button type="button" id="inovice_return" class="btn btn-danger">گەڕاندنەوە کڕین</button>
+                            <button type="button" id="inovice_print" onclick="invoicePrint()" class="btn btn-warning">چاپکردن</button>
+                            <a href="edit_purchase.php?id=<?php echo $id;?>" type="button" class="btn btn-danger">گەڕاندنەوە کڕین</a>
                         </div>
                     </div>
                 </div>

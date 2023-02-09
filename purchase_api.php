@@ -57,7 +57,7 @@ if(isset($_POST['fetch_all'])){
     foreach($items as $item){
         if($item->id==$id){
         echo '<tr>';
-        echo '<input type="hidden" name="item_id[]" id="item_id" value="'.$item->id.'">';
+        echo '<input type="hidden" name="custom_id[]" id="custom_id" value="'.$item->id.'">';
         echo '<td><input type="text" name="item_name[]" id="item_name" size="100" value="'.$item->name.'" readonly class="form-control item_name"></td>';
         echo '<td><div class="input-group flex-nowrap">
         <button type="button" class="btn btn-secondary btn-sm item_btn_minus" id="item_btn_minus" ><i class="ti ti-minus"></i></button>
@@ -129,11 +129,11 @@ if(isset($_POST['add'])){
                 $purchase->due=$_POST["grand_total"];
             }
             
-            if($_POST["pay_amount"] < $_POST["grand_total"] || $_POST["pay_amount"] == $_POST["grand_total"] || $_POST['pay_amount'] == null){
-                $purchase->pay_status=1;
-            }else{
-                $purchase->pay_status=0;
-            }
+            // if($_POST["pay_amount"] < $_POST["grand_total"] || $_POST["pay_amount"] == $_POST["grand_total"] || $_POST['pay_amount'] == null){
+            //     $purchase->pay_status=1;
+            // }else{
+            //     $purchase->pay_status=0;
+            // }
         
             if($purchase->save()){
                 $data=array('success'=>'true',);
@@ -176,11 +176,11 @@ if(isset($_POST['add'])){
             $purchase->due=$_POST["grand_total"];
         }
         
-        if($_POST["pay_amount"] < $_POST["grand_total"] || $_POST["pay_amount"] == $_POST["grand_total"] || $_POST['pay_amount'] == null){
-            $purchase->pay_status=1;
-        }else{
-            $purchase->pay_status=0;
-        }
+        // if($_POST["pay_amount"] < $_POST["grand_total"] || $_POST["pay_amount"] == $_POST["grand_total"] || $_POST['pay_amount'] == null){
+        //     $purchase->pay_status=1;
+        // }else{
+        //     $purchase->pay_status=0;
+        // }
     
         if($purchase->save()){
             $data=array('success'=>'true',);
@@ -211,8 +211,7 @@ if(isset($_POST['edit'])){
     $purchase->updated_by='rebin';
     $purchase->updated_at=date("Y-m-d H:i:s");
     $payment_amount=$_POST['pay_amount'];
-
-    if($payment_amount>0 || $payment_amount != "" || $payment_amount !=null){
+    if($payment_amount>0 || $payment_amount != "" || $payment_amount != null){
         if($payment_amount > $purchase->due){
             $purchase->due=0;
         }else{
@@ -223,6 +222,29 @@ if(isset($_POST['edit'])){
         $purchase->due=$_POST["grand_total"];
     }
     
+    if($purchase->save()){
+        $data=array('success'=>'true',);
+        echo json_encode($data);
+    }else{
+        $data=array('success'=>'false');
+        echo json_encode($data);
+    }
+
+}
+
+if(isset($_POST['return'])){
+    $purchase=Purchase::singleFetch($_POST["purchase_id"]);
+    $purchase->return_date=$_POST["return_date"];
+    $purchase->return_status=$_POST["return_status"];
+    $purchase->total_quantity=$_POST["total_quantity"];
+    $purchase->tax=$_POST["tax"];
+    $purchase->tax_amount=$_POST["tax_amount"];
+    $purchase->discount=$_POST["discount"];
+    $purchase->note=$_POST["purchase_note"];
+    $purchase->total_price=$_POST["total_price"];
+    $purchase->other_charges=$_POST["other_charges"];
+    $purchase->discount_all=$_POST["discount_all"];
+    $purchase->grand_total=$_POST["grand_total"];
     if($purchase->save()){
         $data=array('success'=>'true',);
         echo json_encode($data);

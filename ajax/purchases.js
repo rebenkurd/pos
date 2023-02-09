@@ -251,7 +251,7 @@ function(e){
             if(success=="true"){
                 $("#add_purchase")[0].reset();
                 $("#item_table tbody tr").remove();
-                window.location.href="invoice.php?id="+purchase_code;
+                // window.location.href="invoice.php?id="+purchase_code;
                 console.log("success");
             }else{
                 console.log("failed");
@@ -351,6 +351,54 @@ $(document).on('submit','#edit_purchase',function(e){
           discount_all:parseFloat(discount_all),
           grand_total:parseFloat(grand_total),
           edit:true
+        },
+            success:function(data){
+                var json = JSON.parse(data);
+                var success=json.success;
+                if(success=='true'){
+                  console.log("success");
+            }else{
+              console.log("error");
+            }
+        }
+    })
+}
+})
+
+$(document).on('submit','#return_purchase',function(e){
+    e.preventDefault();
+    var purchase_id =$('#purchase_id').val();
+    var return_date =$('#return_date').val();
+    var return_status =$('#return_status').val();
+    var total_quantity =parseInt($('#total_quantity').text());
+    var tax =$('#tax').val();
+    var tax_amount =$('#tax_amount').val();
+    var discount =$('#discount').val();
+    var purchase_note =$('#purchase_note').val();
+    var total_price =parseFloat($('#total_price').text());
+    var other_charges =parseFloat($('#other_charges').text());
+    var discount_all =parseFloat($('#discount_all').text());
+    var grand_total =parseFloat($('#gtotal').text());
+    var rows=$('#item_table tbody tr');
+
+  if(rows.length>0){
+    $.ajax({
+        url:"purchase_api.php",
+        type:"POST",
+        data:{
+          purchase_id:purchase_id,
+          return_date:return_date,
+          return_status:return_status,
+          total_quantity:total_quantity,
+          tax:tax,
+          tax_amount:parseFloat(tax_amount),
+          discount:discount,
+          purchase_note:purchase_note,
+          total_price:parseFloat(total_price),
+          other_charges:other_charges,
+          discount_all:parseFloat(discount_all),
+          grand_total:parseFloat(grand_total),
+          return:true
         },
             success:function(data){
                 var json = JSON.parse(data);
@@ -674,3 +722,5 @@ function deleteAllPurchase(){
   })
 }
 }
+
+

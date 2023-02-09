@@ -46,8 +46,9 @@ $("#search-result").on('click',function(e){
         //   Quantity button click event
         var rows=$("#item_table tbody tr");
         rows.each(function(id){
+          if($(this).attr('id')!='tr_'+id){
           console.log($(this).attr('id','tr_'+id));
-
+}
           $("#tr_"+id+" #item_btn_plus, #tr_"+id+" #item_btn_minus").click(function(){
             var $qty = $("#tr_"+id+" #item_qty");
             var currentVal = parseInt($qty.val());
