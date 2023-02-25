@@ -8,7 +8,7 @@ $(document).ready(function(){
     serverSide: true,
     pagin:true,
     order:[],
-    responsive: true,
+    // responsive: true,
     ajax: {
         url:'purchase_api.php',
         type: 'POST',
@@ -207,7 +207,7 @@ buttons: [
 function(e){
     e.preventDefault();
     var pay_amount =$('#purchase_payment_amount').val();
-    var purchase_code =$('#purchase_code').val();
+    var code =$('#code').val();
     var supplier_id =$('#supplier_id').val();
     var purchase_date =$('#purchase_date').val();
     var supplier_status =$('#supplier_status').val();
@@ -229,7 +229,7 @@ function(e){
         type:"POST",
         data:{
             pay_amount:parseFloat(pay_amount),
-            purchase_code:purchase_code,
+            code:code,
             supplier_id:supplier_id,
             purchase_date:purchase_date,
             supplier_status:supplier_status,
@@ -251,7 +251,7 @@ function(e){
             if(success=="true"){
                 $("#add_purchase")[0].reset();
                 $("#item_table tbody tr").remove();
-                // window.location.href="invoice.php?id="+purchase_code;
+                window.location.href="invoice.php?id="+code;
                 console.log("success");
             }else{
                 console.log("failed");
@@ -356,6 +356,7 @@ $(document).on('submit','#edit_purchase',function(e){
                 var json = JSON.parse(data);
                 var success=json.success;
                 if(success=='true'){
+                window.location.href="invoice.php?id="+code;
                   console.log("success");
             }else{
               console.log("error");
@@ -367,12 +368,13 @@ $(document).on('submit','#edit_purchase',function(e){
 
 $(document).on('submit','#return_purchase',function(e){
     e.preventDefault();
+    var code =$('#code').val();
     var purchase_id =$('#purchase_id').val();
     var return_date =$('#return_date').val();
     var return_status =$('#return_status').val();
     var total_quantity =parseInt($('#total_quantity').text());
     var tax =$('#tax').val();
-    var tax_amount =$('#tax_amount').val();
+    var tax_amount =parseFloat($('#tax_amount').text());
     var discount =$('#discount').val();
     var purchase_note =$('#purchase_note').val();
     var total_price =parseFloat($('#total_price').text());
@@ -404,10 +406,11 @@ $(document).on('submit','#return_purchase',function(e){
                 var json = JSON.parse(data);
                 var success=json.success;
                 if(success=='true'){
+                window.location.href="return_invoice.php?id="+code;
                   console.log("success");
-            }else{
-              console.log("error");
-            }
+                }else{
+                  console.log("error");
+                }
         }
     })
 }
@@ -708,6 +711,7 @@ function deleteAllPurchase(){
   checked.each(function(){
       checked_id.push($(this).val());
   });
+  if(confirm("دڵنیایت لە سرینەوەییان؟")){
   for (let i = 0; i < checked_id.length; i++) {
   $.ajax({
       url: 'purchase_api.php',
@@ -720,6 +724,7 @@ function deleteAllPurchase(){
         mytable.draw();
       }
   })
+}
 }
 }
 

@@ -537,6 +537,7 @@ function deleteAllUser(){
   checked.each(function(){
       checked_id.push($(this).val());
   });
+  if(confirm("دڵنیایت لە سرینەوەییان؟")){
   for (let i = 0; i < checked_id.length; i++) {
   $.ajax({
       url: 'user_api.php',
@@ -548,6 +549,6 @@ function deleteAllUser(){
         mytable = $('#user_table').DataTable();
         mytable.draw();
       }
-  })
+  })}
 }
 }

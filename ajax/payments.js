@@ -16,7 +16,7 @@ $(document).ready(function(){
           type: 'POST',
           data:{
               fetch:true,
-              purchase_code:$("#purchase_code").val()
+              code:$("#code").val()
           }
       },
       columns: [
@@ -44,7 +44,7 @@ $(document).ready(function(){
 $(document).on('submit','#add_purchase',
 function(e){
     e.preventDefault();
-    var purchase_code =$('#purchase_code').val();
+    var code =$('#code').val();
     var gtotal =parseFloat($('#gtotal').text());
     var pay_amount =$('#purchase_payment_amount').val();
     var pay_type =$('#purchase_payment_type').val();
@@ -59,7 +59,7 @@ function(e){
         url:"payment_api.php",
         type:"POST",
         data:{
-            purchase_code:purchase_code,
+            code:code,
             pay_amount:amount,
             pay_type:pay_type,
             pay_note:pay_note,
@@ -77,11 +77,47 @@ function(e){
         }
     })
 })
+$(document).on('submit','#add_sale',
+function(e){
+    e.preventDefault();
+    var code =$('#code').val();
+    var gtotal =parseFloat($('#gtotal').text());
+    var pay_amount =$('#sale_payment_amount').val();
+    var pay_type =$('#sale_payment_type').val();
+    var pay_note =$('#sale_payment_note').val();
+    if(pay_amount>gtotal){
+        var amount=gtotal;
+    }else {
+        var amount=pay_amount;
+    }
+
+    $.ajax({
+        url:"payment_api.php",
+        type:"POST",
+        data:{
+            code:code,
+            pay_amount:amount,
+            pay_type:pay_type,
+            pay_note:pay_note,
+            add_pay_sale:true
+        },
+        success:function(data){
+            var json = JSON.parse(data);
+            var success = json.success;
+            if(success=="true"){
+                mytable = $('#payment_table').DataTable();
+                mytable.draw();
+            }else{
+                console.log("there is error");
+            }
+        }
+    })
+})
 
 $(document).on('submit','#edit_purchase',
 function(e){
     e.preventDefault();
-    var purchase_code =$('#purchase_code').val();
+    var code =$('#code').val();
     var gtotal =parseFloat($('#gtotal').text());
     var pay_amount =$('#purchase_payment_amount').val();
     var pay_type =$('#purchase_payment_type').val();
@@ -95,7 +131,7 @@ function(e){
         url:"payment_api.php",
         type:"POST",
         data:{
-            purchase_code:purchase_code,
+            code:code,
             pay_amount:amount,
             pay_type:pay_type,
             pay_note:pay_note,
@@ -128,7 +164,7 @@ $("#purchase_table").on('click','.btn_pay_now',function(event){
         success:function(data){
             var json = JSON.parse(data);
             $('#payment_amount').val(json.due);
-            $('#pay_purchase_code').val(json.purchase_code);
+            $('#pay_code').val(json.code);
       }
     })
     })
@@ -136,7 +172,7 @@ $("#purchase_table").on('click','.btn_pay_now',function(event){
     $(document).on('submit','#pay_now',
     function(e){
         e.preventDefault();
-        var purchase_code =$('#pay_purchase_code').val();
+        var code =$('#pay_code').val();
         var gtotal =parseFloat($('#gtotal').text());
         var pay_amount =$('#payment_amount').val();
         var pay_type =$('#payment_type').val();
@@ -150,7 +186,7 @@ $("#purchase_table").on('click','.btn_pay_now',function(event){
             url:"payment_api.php",
             type:"POST",
             data:{
-                purchase_code:purchase_code,
+                code:code,
                 pay_amount:amount,
                 pay_type:pay_type,
                 pay_note:pay_note,
@@ -171,6 +207,7 @@ $("#purchase_table").on('click','.btn_pay_now',function(event){
     $("#purchase_table").on('click','.btn_view_payment',function(event){
         $('#view_payment_modal').modal('show');
         var id=$(this).closest('tr').attr('id');
+        console.log(id);
         $.ajax({
             url:"purchase_api.php",
             data:{

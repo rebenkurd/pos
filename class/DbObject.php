@@ -42,7 +42,7 @@ class DbObject{
     }
     public static function findbyCode($code){
         global $database;
-        $the_result_array=static::findByQuery("SELECT * FROM ".static::$table." WHERE purchase_code='$code' LIMIT 1");
+        $the_result_array=static::findByQuery("SELECT * FROM ".static::$table." WHERE code='$code' LIMIT 1");
         return !empty($the_result_array)?array_shift($the_result_array):false;
     }
 
@@ -143,7 +143,7 @@ class DbObject{
 
         $sql="UPDATE ".static::$table." SET ";
         $sql .=implode(", ",$properties_pairs);
-        $sql .=" WHERE purchase_code='".$database->es($this->purchase_code)."'";
+        $sql .=" WHERE code='".$database->es($this->code)."'";
         $database->query($sql);
 
         return (mysqli_affected_rows($database->connection)==1)?true:false;
@@ -159,7 +159,7 @@ class DbObject{
     }
     public function deleteByCode(){
         global $database;
-        $sql = "DELETE FROM ".static::$table." WHERE purchase_code='".$database->es($this->purchase_code)."'";
+        $sql = "DELETE FROM ".static::$table." WHERE code='".$database->es($this->code)."'";
         $database->query($sql);
 
         return (mysqli_affected_rows($database->connection)==1)?true:false;

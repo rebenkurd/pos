@@ -18,15 +18,15 @@
 
 <div class="row">
 <!-- View sales -->
-<!-- purchase list start -->
+<!-- sale list start -->
 <div class="col-md-10 mx-auto">
 <div class="card">
 <div class="card-datatable text-nowrap">
-<table class="table" id="purchase_table">
+<table class="table" id="sale_table">
     <thead>
         <tr>
             <th></th>
-            <th>بەرواری كرین</th>
+            <th>بەرواری فرؤشتن</th>
             <th>کۆد</th>
             <th>دۆخ</th>
             <th>ژمارەی سەرچاوە</th>
@@ -114,7 +114,7 @@
 </div>
 </div>
 </div>
-<!-- purchase list end -->
+<!-- sale list end -->
 </div>
 
 

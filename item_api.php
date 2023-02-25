@@ -41,11 +41,11 @@ require_once "configs/initialized.php";
 // }
 
 
-if(isset($_POST['add'])){
+if(isset($_POST['add_purchase']) || isset($_GET['add_sale'])){
     $item=new Item();
     $custom_id=$_POST["custom_id"];
     $item->custom_id=$custom_id;
-    $item->purchase_code=$_POST["purchase_code"];
+    $item->code=$_POST["code"];
     $item->name=$_POST["name"];
     $item->quantity=$_POST["quantity"];
     $item->price=$_POST["price"];
@@ -57,9 +57,15 @@ if(isset($_POST['add'])){
     $item->added_by='rebin';
     $item->created_at=date("Y-m-d H:i:s");
     if($item->save()){
-        $custom=Custom::singleFetch($custom_id);
-        $custom->quantity=$custom->quantity+$_POST["quantity"];
-        $custom->save();
+        if(isset($_GET['add_purchase'])){
+            $custom=Custom::singleFetch($custom_id);
+            $custom->quantity=$custom->quantity+$_POST["quantity"];
+            $custom->save();
+        }else{
+            $custom=Custom::singleFetch($custom_id);
+            $custom->quantity=$custom->quantity-$_POST["quantity"];
+            $custom->save(); 
+        }
         $data=array('success'=>'true',);
         echo json_encode($data);
     }else{
@@ -72,8 +78,8 @@ if(isset($_POST['edit'])){
     $custom_id=$_POST["custom_id"];
     $item_id=$_POST["item_id"];
     $quantity=$_POST["quantity"];
-    $purchase_code=$_POST["purchase_code"];
-    $item_find=Item::findbyCode($purchase_code);
+    $code=$_POST["code"];
+    $item_find=Item::findbyCode($code);
     if($item_find->id == $item_id){
         $item=Item::singleFetch($item_id);    
         $item->name=$_POST["name"];
@@ -100,7 +106,7 @@ if(isset($_POST['edit'])){
     }else{  
         $item=new Item();
         // $custom_id=$_POST["custom_id"];
-        $item->purchase_code=$_POST["purchase_code"];
+        $item->code=$_POST["code"];
         $item->name=$_POST["name"];
         $item->quantity=$_POST["quantity"];
         $item->price=$_POST["price"];
@@ -127,8 +133,8 @@ if(isset($_POST['return'])){
     $item_id=$_POST["item_id"];
     $custom_id=$_POST["custom_id"];
     $quantity=$_POST["quantity"];
-    $purchase_code=$_POST["purchase_code"];
-    $item_find=Item::findbyCode($purchase_code);
+    $code=$_POST["code"];
+    $item_find=Item::findbyCode($code);
         $item=Item::singleFetch($item_id);    
         $item->name=$_POST["name"];
         $item->quantity=$quantity;

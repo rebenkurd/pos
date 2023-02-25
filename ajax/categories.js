@@ -408,6 +408,7 @@ $("#category_table").on('click','.edit_btn_category',function(event){
       checked.each(function(){
           checked_id.push($(this).val());
       });
+  if(confirm("دڵنیایت لە سرینەوەییان؟")){
       for (let i = 0; i < checked_id.length; i++) {
       $.ajax({
           url: 'category_api.php',
@@ -421,4 +422,5 @@ $("#category_table").on('click','.edit_btn_category',function(event){
           }
       })
     }
+  }
     }

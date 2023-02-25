@@ -14,7 +14,7 @@ class Item extends DbObject {
         'tax_amount',
         'unit_cost',
         'total_price',
-        'purchase_code',
+        'code',
         'added_by',
         'updated_by',
         'created_at',
@@ -32,7 +32,7 @@ class Item extends DbObject {
     public $tax_amount;
     public $unit_cost;
     public $total_price;
-    public $purchase_code;
+    public $code;
     public $added_by;
     public $updated_by;
     public $created_at;

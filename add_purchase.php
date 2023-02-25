@@ -32,10 +32,10 @@
                                             $id_increase=$get_numbers+1;
                                             $get_string=str_pad($id_increase,5,0,STR_PAD_LEFT);
                                             $new_id="PR".$get_string;
-                                            echo  '<input type="hidden" id="purchase_code" value="'.$new_id.'" />';     
+                                            echo  '<input type="hidden" id="code" value="'.$new_id.'" />';     
                                     }
                                 }else{
-                                    echo  '<input type="hidden" id="purchase_code" value="PR00001" />';     
+                                    echo  '<input type="hidden" id="code" value="PR00001" />';     
                                 }                           
                                 ?>
                             <div class="row">

@@ -3,7 +3,7 @@
 require_once "configs/initialized.php";
 
 if(isset($_POST['fetch'])){
-    echo Payment::fetchPayment($_POST['purchase_code']);
+    echo Payment::fetchPayment($_POST['code']);
 }
 
 // if(isset($_POST['get'])){
@@ -50,7 +50,26 @@ if(isset($_POST['fetch'])){
 
 if(isset($_POST['add'])){
     $payment=new Payment();
-    $payment->purchase_code=$_POST["purchase_code"];
+    $payment->code=$_POST["code"];
+    $payment->pay_amount=$_POST["pay_amount"];
+    $payment->pay_type=$_POST["pay_type"];
+    $payment->pay_note=$_POST["pay_note"];
+    $payment->added_by='rebin';
+    $payment->created_at=date("Y-m-d H:i:s");
+    if($_POST["pay_type"] != ""){
+    if($_POST["pay_amount"] != "" && $_POST['pay_amount'] > 0 ){
+    if($payment->save()){
+        $data=array('success'=>'true',);
+        echo json_encode($data);
+    }else{
+        $data=array('success'=>'false',);
+        echo json_encode($data);
+    }
+    }}
+}
+if(isset($_POST['add_pay_sale'])){
+    $payment=new Payment();
+    $payment->code=$_POST["code"];
     $payment->pay_amount=$_POST["pay_amount"];
     $payment->pay_type=$_POST["pay_type"];
     $payment->pay_note=$_POST["pay_note"];
@@ -69,12 +88,12 @@ if(isset($_POST['add'])){
 }
 
 if(isset($_POST['pay_now'])){
-    $purchase_code=$_POST["purchase_code"];
+    $code=$_POST["code"];
     $pay_amount=$_POST["pay_amount"];
-    $purchase=Purchase::findbyCode($purchase_code);
+    $purchase=Purchase::findbyCode($code);
 
     $payment=new Payment();
-    $payment->purchase_code=$purchase_code;
+    $payment->code=$code;
     $payment->pay_amount=$pay_amount;
     $payment->pay_type=$_POST["pay_type"];
     $payment->pay_note=$_POST["pay_note"];

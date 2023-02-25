@@ -986,6 +986,7 @@ function deleteAllCustom(){
   checked.each(function(){
       checked_id.push($(this).val());
   });
+  if(confirm("دڵنیایت لە سرینەوەییان؟")){
   for (let i = 0; i < checked_id.length; i++) {
   $.ajax({
       url: 'custom_api.php',
@@ -998,5 +999,6 @@ function deleteAllCustom(){
         mytable.draw();
       }
   })
+}
 }
 }

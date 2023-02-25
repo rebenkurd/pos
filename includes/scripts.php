@@ -73,7 +73,7 @@
     <!-- items -->
     <script src="ajax/items.js"></script> 
     <script src="ajax/company_profile.js"></script> 
-
-    
+    <!-- sales -->
+    <script src="ajax/sales.js"></script> 
   </body>
 </html>

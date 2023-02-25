@@ -7,7 +7,7 @@ class Payment extends DbObject {
         'pay_amount',
         'pay_type',
         'pay_note',
-        'purchase_code',
+        'code',
         'added_by',
         'updated_by',
         'created_at',
@@ -18,7 +18,7 @@ class Payment extends DbObject {
     public $pay_amount;
     public $pay_type;
     public $pay_note;
-    public $purchase_code;
+    public $code;
     public $added_by;
     public $updated_by;
     public $created_at;
@@ -27,7 +27,7 @@ class Payment extends DbObject {
 
 
 
-    public static function fetchPayment($purchase_code){
+    public static function fetchPayment($code){
         global $database;
         $outpu=array();
         $sql="SELECT * FROM ".static::$table;
@@ -39,7 +39,7 @@ class Payment extends DbObject {
             1 => 'pay_amount',
             2 => 'pay_type',
             3 => 'pay_note',
-            4 => 'purchase_code',
+            4 => 'code',
             5 => 'added_by',
             6 => 'updated_by',
             7 => 'created_at',
@@ -71,7 +71,7 @@ class Payment extends DbObject {
         $count_rows=mysqli_num_rows($query);
         $data=array();
         while($row=mysqli_fetch_assoc($query)){
-            if($row['purchase_code']==$purchase_code){
+            if($row['code']==$code){
             $sub_array=array();
             $sub_array[]=$row['id'];
             $sub_array[]=$row['created_at'];

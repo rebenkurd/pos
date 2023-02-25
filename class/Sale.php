@@ -1,7 +1,7 @@
 <?php 
 
-class Purchase extends DbObject {
-    protected static $table = 'purchases';
+class Sale extends DbObject {
+    protected static $table = 'sales';
     protected static $table_fields = array(
         'id',
         'code',
@@ -15,7 +15,7 @@ class Purchase extends DbObject {
         'ref_num',
         'note',
         'status',
-        'purchase_date',
+        'sale_date',
         'supplier',
         'return',
         'return_status',
@@ -41,7 +41,7 @@ class Purchase extends DbObject {
     public $return_status;
     public $return_date;
     public $note;
-    public $purchase_date;
+    public $sale_date;
     public $supplier;
     public $due;
     public $added_by;
@@ -71,7 +71,7 @@ class Purchase extends DbObject {
         9 => 'ref_num',
         10 => 'note',
         11 => 'status',
-        12 => 'purchase_date',
+        12 => 'sale_date',
         13 => 'supplier',
         14 => 'return',
         15 => 'return_status',
@@ -85,7 +85,7 @@ class Purchase extends DbObject {
 
     if(isset($_POST['search']['value'])){
         $search_value=$_POST['search']['value'];
-        $sql .=" WHERE purchase_date like '%".$search_value."%'";
+        $sql .=" WHERE sale_date like '%".$search_value."%'";
         $sql .=" OR code like '%".$search_value."%'";
         $sql .=" OR ref_num like '%".$search_value."%'";
         $sql .=" OR grand_total like '%".$search_value."%'";
@@ -112,7 +112,7 @@ class Purchase extends DbObject {
     while($row=mysqli_fetch_assoc($query)){
         $sub_array=array();
         $sub_array[]=$row['id'];
-        $sub_array[]=$row['purchase_date'];
+        $sub_array[]=$row['sale_date'];
         if($row['return_status']=="return"){
             $sub_array[]=$row['code'].' '.'<span class="badge bg-label-warning " title="گەڕێندراوەتەوە"><i class="ti ti-arrow-back-up fs-6"></i></span>';
         }elseif($row['return_status']=="cancel"){
@@ -135,16 +135,16 @@ class Purchase extends DbObject {
     $sub_array[]='<div class="d-inline-block">
     <a href="javascript:;" class="btn btn-sm btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="text-primary ti ti-dots"></i></a>
         <div class="dropdown-menu dropdown-menu m-0 fs-6">
-            <a href="invoice.php?id='.$row['code'].'" class="dropdown-item"><i class="ti ti-eye"></i> بینینی کڕین</a>
-            <a href="edit_purchase.php?id='.$row['code'].'" class="dropdown-item"><i class="ti ti-edit"></i> گۆڕانکاری</a>
+            <a href="sinvoice.php?id='.$row['code'].'" class="dropdown-item"><i class="ti ti-eye"></i> بینینی کڕین</a>
+            <a href="edit_sale.php?id='.$row['code'].'" class="dropdown-item"><i class="ti ti-edit"></i> گۆڕانکاری</a>
             <a href="javascript:;" class="dropdown-item btn_view_payment"><i class="ti ti-cash-banknote"></i> پێشاندانی پارەدان</a>
             <a href="javascript:;" class="dropdown-item btn_pay_now"><i class="ti ti-cash-banknote-off"></i> ئێستا پارەبدە</a>
             <div class="dropdown-divider"></div>
             <a href="javascript:;" class="dropdown-item"><i class="ti ti-printer"></i> چاپکردن</a>
             <a href="javascript:;" class="dropdown-item"><i class="ti ti-file-text"></i> PDF</a>
             <div class="dropdown-divider"></div>
-            <a href="return_purchase.php?id='.$row['code'].'" class="dropdown-item"><i class="ti ti-arrow-back-up"></i> گەڕاندنەوەی کڕین</a>
-            <a href="javascript:;" class="dropdown-item text-danger delete_purchase" data-id="'.$row['id'].'"><i class="ti ti-trash"></i> Delete</a>
+            <a href="return_sale.php?id='.$row['code'].'" class="dropdown-item"><i class="ti ti-arrow-back-up"></i> گەڕاندنەوەی کڕین</a>
+            <a href="javascript:;" class="dropdown-item text-danger delete_sale" data-id="'.$row['id'].'"><i class="ti ti-trash"></i> Delete</a>
         </div>
     </div>';
     $data[]=$sub_array;

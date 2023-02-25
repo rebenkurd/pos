@@ -30,12 +30,12 @@
                                         echo "<script>window.location.href='/pos'</script>";
                                     }
                                     $purchase=Purchase::findbyCode($id);
-                                    echo '<input type="hidden" id="purchase_code" name="purchase_code[]" value="'.$id.'"/>';
+                                    echo '<input type="hidden" id="code" name="code[]" value="'.$id.'"/>';
                                     echo '<input type="hidden" id="purchase_id" name="purchase_id" value="'.$purchase->id.'"/>';;
                                    ?>
                                 <div class="row">
                                 <div class="col-xl-6 col-lg-6 col-md-6">
-                                    <p>کۆدی کڕین : <span><?php echo $purchase->purchase_code;?></span></p>
+                                    <p>کۆدی کڕین : <span><?php echo $purchase->code;?></span></p>
                                     <div class="mb-3">
                                         <label class="form-label" for="return_status">دۆخ</label>
                                         <select class="form-control w-25" id="return_status">
@@ -76,7 +76,7 @@
                                             $items=Item::fetchAll();
                                             if(Item::numRows()>0){
                                                 foreach($items as $item){
-                                                    if($item->purchase_code == $id){
+                                                    if($item->code == $id){
                                                         echo '<tr>';
                                                         echo '<input type="hidden" name="custom_id[]" id="custom_id" value="'.$item->custom_id.'">';
                                                         echo '<input type="hidden" name="item_id[]" id="item_id" value="'.$item->id.'">';                                                        echo '<td><input type="text" name="item_name[]" id="item_name" size="100" value="'.$item->name.'" readonly class="form-control item_name"></td>';
@@ -185,7 +185,7 @@
                                             if(Payment::numRows()>0){
                                                 $a=1;
                                                 foreach($payments as $payment){
-                                                    if($payment->purchase_code == $id){
+                                                    if($payment->code == $id){
                                             ?>
                                             <tr>
                                             <td><?php echo $payment->created_at; ?></td>

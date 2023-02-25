@@ -4,15 +4,15 @@
 require_once "configs/initialized.php";
 
 if(isset($_POST['fetch'])){
-    echo Purchase::fetch();
+    echo Sale::fetch();
 }
 
 
 
 if(isset($_POST['get_due'])){
     $id=$_POST['id'];
-    $purchase=Purchase::singleFetch($id);
-    echo json_encode($purchase);
+    $sale=Sale::singleFetch($id);
+    echo json_encode($sale);
 }
     
 if(isset($_POST['view_payment'])){
@@ -20,7 +20,7 @@ if(isset($_POST['view_payment'])){
         $id=$_POST['id'];
     }
 
-    $code=Purchase::singleFetch($id)->code;
+    $code=Sale::singleFetch($id)->code;
     $payments= Payment::fetchAll();
     $no=1;
     if(Payment::numRows()>0){
@@ -90,52 +90,52 @@ if(isset($_POST['query'])){
 
 
 if(isset($_POST['add'])){
-    $check_id=Purchase::fetchAll();
-    if(Purchase::numRows()>0){
+    $check_id=Sale::fetchAll();
+    if(Sale::numRows()>0){
         foreach($check_id as $check){
             $id=$check->id;
             $get_numbers=str_replace("PR","",$id);
             $id_increase=$get_numbers+1;
             $get_string=str_pad($id_increase,5,0,STR_PAD_LEFT);
             $new_id="PR".$get_string;
-            $purchase=new Purchase();
-            $purchase->code=$new_id;
-            $purchase->supplier=$_POST["supplier_id"];
-            $purchase->purchase_date=$_POST["purchase_date"];
-            $purchase->status=$_POST["supplier_status"];
-            $purchase->ref_num=$_POST["purchase_ref_num"];
-            $purchase->total_quantity=$_POST["total_quantity"];
-            $purchase->tax=$_POST["tax"];
-            $purchase->tax_amount=$_POST["tax_amount"];
-            $purchase->discount=$_POST["discount"];
-            $purchase->note=$_POST["purchase_note"];
-            $purchase->total_price=$_POST["total_price"];
-            $purchase->other_charges=$_POST["other_charges"];
-            $purchase->discount_all=$_POST["discount_all"];
-            $purchase->grand_total=$_POST["grand_total"];
-            $purchase->added_by='rebin';
-            $purchase->created_at=date("Y-m-d H:i:s");
+            $sale=new Sale();
+            $sale->code=$new_id;
+            $sale->supplier=$_POST["supplier_id"];
+            $sale->sale_date=$_POST["sale_date"];
+            $sale->status=$_POST["supplier_status"];
+            $sale->ref_num=$_POST["sale_ref_num"];
+            $sale->total_quantity=$_POST["total_quantity"];
+            $sale->tax=$_POST["tax"];
+            $sale->tax_amount=$_POST["tax_amount"];
+            $sale->discount=$_POST["discount"];
+            $sale->note=$_POST["sale_note"];
+            $sale->total_price=$_POST["total_price"];
+            $sale->other_charges=$_POST["other_charges"];
+            $sale->discount_all=$_POST["discount_all"];
+            $sale->grand_total=$_POST["grand_total"];
+            $sale->added_by='rebin';
+            $sale->created_at=date("Y-m-d H:i:s");
             $payment_amount=$_POST['pay_amount'];
             $gtotal=$_POST["grand_total"];
         
             if($payment_amount<0 || $payment_amount != "" || $payment_amount !=null){
                 if($payment_amount > $gtotal){
-                    $purchase->due=0;
+                    $sale->due=0;
                 }else{
                     $due=$gtotal-$payment_amount;
-                    $purchase->due=$due;
+                    $sale->due=$due;
                 }
             }else{
-                $purchase->due=$_POST["grand_total"];
+                $sale->due=$_POST["grand_total"];
             }
             
             // if($_POST["pay_amount"] < $_POST["grand_total"] || $_POST["pay_amount"] == $_POST["grand_total"] || $_POST['pay_amount'] == null){
-            //     $purchase->pay_status=1;
+            //     $sale->pay_status=1;
             // }else{
-            //     $purchase->pay_status=0;
+            //     $sale->pay_status=0;
             // }
         
-            if($purchase->save()){
+            if($sale->save()){
                 $data=array('success'=>'true',);
                 echo json_encode($data);
             }else{
@@ -145,39 +145,39 @@ if(isset($_POST['add'])){
         
         }
     }else{
-        $purchase=new Purchase();
-        $purchase->code='PR00001';
-        $purchase->supplier=$_POST["supplier_id"];
-        $purchase->purchase_date=$_POST["purchase_date"];
-        $purchase->status=$_POST["supplier_status"];
-        $purchase->ref_num=$_POST["purchase_ref_num"];
-        $purchase->total_quantity=$_POST["total_quantity"];
-        $purchase->tax=$_POST["tax"];
-        $purchase->tax_amount=$_POST["tax_amount"];
-        $purchase->discount=$_POST["discount"];
-        $purchase->note=$_POST["purchase_note"];
-        $purchase->total_price=$_POST["total_price"];
-        $purchase->other_charges=$_POST["other_charges"];
-        $purchase->discount_all=$_POST["discount_all"];
-        $purchase->grand_total=$_POST["grand_total"];
-        $purchase->added_by='rebin';
-        $purchase->created_at=date("Y-m-d H:i:s");
+        $sale=new Sale();
+        $sale->code='PR00001';
+        $sale->supplier=$_POST["supplier_id"];
+        $sale->sale_date=$_POST["sale_date"];
+        $sale->status=$_POST["supplier_status"];
+        $sale->ref_num=$_POST["sale_ref_num"];
+        $sale->total_quantity=$_POST["total_quantity"];
+        $sale->tax=$_POST["tax"];
+        $sale->tax_amount=$_POST["tax_amount"];
+        $sale->discount=$_POST["discount"];
+        $sale->note=$_POST["sale_note"];
+        $sale->total_price=$_POST["total_price"];
+        $sale->other_charges=$_POST["other_charges"];
+        $sale->discount_all=$_POST["discount_all"];
+        $sale->grand_total=$_POST["grand_total"];
+        $sale->added_by='rebin';
+        $sale->created_at=date("Y-m-d H:i:s");
         $payment_amount=$_POST['pay_amount'];
         $gtotal=$_POST["grand_total"];
     
         if($payment_amount<0 || $payment_amount != "" || $payment_amount !=null){
             if($payment_amount > $gtotal){
-                $purchase->due=0;
+                $sale->due=0;
             }else{
                 $due=$gtotal-$payment_amount;
-                $purchase->due=$due;
+                $sale->due=$due;
             }
         }else{
-            $purchase->due=$_POST["grand_total"];
+            $sale->due=$_POST["grand_total"];
         }
         
     
-        if($purchase->save()){
+        if($sale->save()){
             $data=array('success'=>'true',);
             echo json_encode($data);
         }else{
@@ -192,35 +192,35 @@ if(isset($_POST['add'])){
 
 
 if(isset($_POST['edit'])){
-    $purchase=Purchase::singleFetch($_POST["purchase_id"]);
-    $purchase->supplier=$_POST["supplier_id"];
-    $purchase->purchase_date=$_POST["purchase_date"];
-    $purchase->status=$_POST["supplier_status"];
-    $purchase->ref_num=$_POST["purchase_ref_num"];
-    $purchase->total_quantity=$_POST["total_quantity"];
-    $purchase->tax=$_POST["tax"];
-    $purchase->tax_amount=$_POST["tax_amount"];
-    $purchase->discount=$_POST["discount"];
-    $purchase->note=$_POST["purchase_note"];
-    $purchase->total_price=$_POST["total_price"];
-    $purchase->other_charges=$_POST["other_charges"];
-    $purchase->discount_all=$_POST["discount_all"];
-    $purchase->grand_total=$_POST["grand_total"];
-    $purchase->updated_by='rebin';
-    $purchase->updated_at=date("Y-m-d H:i:s");
+    $sale=Sale::singleFetch($_POST["sale_id"]);
+    $sale->supplier=$_POST["supplier_id"];
+    $sale->sale_date=$_POST["sale_date"];
+    $sale->status=$_POST["supplier_status"];
+    $sale->ref_num=$_POST["sale_ref_num"];
+    $sale->total_quantity=$_POST["total_quantity"];
+    $sale->tax=$_POST["tax"];
+    $sale->tax_amount=$_POST["tax_amount"];
+    $sale->discount=$_POST["discount"];
+    $sale->note=$_POST["sale_note"];
+    $sale->total_price=$_POST["total_price"];
+    $sale->other_charges=$_POST["other_charges"];
+    $sale->discount_all=$_POST["discount_all"];
+    $sale->grand_total=$_POST["grand_total"];
+    $sale->updated_by='rebin';
+    $sale->updated_at=date("Y-m-d H:i:s");
     $payment_amount=$_POST['pay_amount'];
     if($payment_amount>0 || $payment_amount != "" || $payment_amount != null){
-        if($payment_amount > $purchase->due){
-            $purchase->due=0;
+        if($payment_amount > $sale->due){
+            $sale->due=0;
         }else{
-            $due=$purchase->due-$payment_amount;
-            $purchase->due=$due;
+            $due=$sale->due-$payment_amount;
+            $sale->due=$due;
         }
     }else{
-        $purchase->due=$_POST["grand_total"];
+        $sale->due=$_POST["grand_total"];
     }
     
-    if($purchase->save()){
+    if($sale->save()){
         $data=array('success'=>'true',);
         echo json_encode($data);
     }else{
@@ -231,19 +231,19 @@ if(isset($_POST['edit'])){
 }
 
 if(isset($_POST['return'])){
-    $purchase=Purchase::singleFetch($_POST["purchase_id"]);
-    $purchase->return_date=$_POST["return_date"];
-    $purchase->return_status=$_POST["return_status"];
-    $purchase->total_quantity=$_POST["total_quantity"];
-    $purchase->tax=$_POST["tax"];
-    $purchase->tax_amount=$_POST["tax_amount"];
-    $purchase->discount=$_POST["discount"];
-    $purchase->note=$_POST["purchase_note"];
-    $purchase->total_price=$_POST["total_price"];
-    $purchase->other_charges=$_POST["other_charges"];
-    $purchase->discount_all=$_POST["discount_all"];
-    $purchase->grand_total=$_POST["grand_total"];
-    if($purchase->save()){
+    $sale=Sale::singleFetch($_POST["sale_id"]);
+    $sale->return_date=$_POST["return_date"];
+    $sale->return_status=$_POST["return_status"];
+    $sale->total_quantity=$_POST["total_quantity"];
+    $sale->tax=$_POST["tax"];
+    $sale->tax_amount=$_POST["tax_amount"];
+    $sale->discount=$_POST["discount"];
+    $sale->note=$_POST["sale_note"];
+    $sale->total_price=$_POST["total_price"];
+    $sale->other_charges=$_POST["other_charges"];
+    $sale->discount_all=$_POST["discount_all"];
+    $sale->grand_total=$_POST["grand_total"];
+    if($sale->save()){
         $data=array('success'=>'true',);
         echo json_encode($data);
     }else{
@@ -256,9 +256,9 @@ if(isset($_POST['return'])){
 
 if(isset($_POST['delete'])){
     $id = $_POST['id'];
-    $purchase=Purchase::singleFetch($id);
-    $code=$purchase->code;
-    if($purchase->delete()){
+    $sale=Sale::singleFetch($id);
+    $code=$sale->code;
+    if($sale->delete()){
         Item::findbyCode($code)->deleteByCode();
         Payment::findbyCode($code)->deleteByCode();
         $data = array(

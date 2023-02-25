@@ -59,7 +59,7 @@
                             <p>TAX : <span><?php echo $supplier->tax;?></span></p>
                         </div>
                         <div class="col-xl-4">
-                            <h6>پسوڵەی : #<span><?php echo $purchase->purchase_code;?></span></h6>
+                            <h6>پسوڵەی : #<span><?php echo $purchase->code;?></span></h6>
                             <h6>دۆخی گەڕاندنەوە : <span><?php echo $purchase->return_status;?></span></h6>
                         </div>
                     </div>
@@ -86,7 +86,7 @@
                                             if(Item::numRows()>0){
                                                 $a=1;
                                                 foreach($payments as $item){
-                                                    if($item->purchase_code == $id){
+                                                    if($item->code == $id){
                                             ?>
                                             <tr>
                                             <td><?php echo $a++; ?></td>
@@ -136,7 +136,7 @@
                                             if(Payment::numRows()>0){
                                                 $a=1;
                                                 foreach($payments as $payment){
-                                                    if($payment->purchase_code == $id){
+                                                    if($payment->code == $id){
                                             ?>
                                             <tr>
                                             <td><?php echo $a++; ?></td>

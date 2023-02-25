@@ -25,7 +25,7 @@
                   <!-- Customs -->
                   <li class="menu-item ">
                     <a href="customs" class="menu-link">
-                      <i class="menu-icon tf-icons ti ti-shopping-cart"></i>
+                      <i class="menu-icon tf-icons ti ti-packages"></i>
                       <div data-i18n="Customs">Customs</div>
                     </a>
                   </li>
@@ -45,7 +45,7 @@
                   </li>
                   <li class="menu-item">
                     <a href="javascript:void(0)" class="menu-link menu-toggle">
-                      <i class="menu-icon tf-icons ti ti-shopping-cart-plus"></i>
+                      <i class="menu-icon tf-icons ti ti-box"></i>
                       <div data-i18n="Purchases">Purchases</div>
                     </a>
                         <ul class="menu-sub">
@@ -57,6 +57,24 @@
                           <li class="menu-item">
                             <a href="add_purchase" class="menu-link">
                               <div data-i18n="Add Purchase">Add Purchase</div>
+                            </a>
+                          </li>
+                        </ul>
+                  </li>
+                  <li class="menu-item">
+                    <a href="javascript:void(0)" class="menu-link menu-toggle">
+                      <i class="menu-icon tf-icons ti ti-shopping-cart"></i>
+                      <div data-i18n="Sales">Sales</div>
+                    </a>
+                        <ul class="menu-sub">
+                          <li class="menu-item">
+                            <a href="sales" class="menu-link">
+                              <div data-i18n="List of Sales">List Of Sales</div>
+                            </a>
+                          </li>
+                          <li class="menu-item">
+                            <a href="add_sale" class="menu-link">
+                              <div data-i18n="Add Sale">Add Sale</div>
                             </a>
                           </li>
                         </ul>

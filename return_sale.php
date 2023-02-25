@@ -16,89 +16,44 @@
         <div class="container-xxl flex-grow-1 container-p-y">
             <div class="row">
                 <!-- View sales -->
-                <!-- purchase list start -->
+                <!-- sale list start -->
                 <div class="col-xl-12 col-lg-12 col-md-12 mx-auto">
                     <div class="card p-3">
-                        <h5>زیادکردنی کڕین</h5>
+                        <h5>گەڕاندنەوەی کڕین</h5>
                         <div id="alert"></div>
-                            <!-- add purchase -->
-                            <form action="" id="edit_purchase">
+                            <!-- add sale -->
+                            <form action="" id="return_sale">
                                 <?php
                                     if(isset($_GET['id'])){
                                         $id=$_GET['id'];
                                     }else{
                                         echo "<script>window.location.href='/pos'</script>";
                                     }
-                                    $purchase=Purchase::findbyCode($id);
+                                    $sale=Sale::findbyCode($id);
                                     echo '<input type="hidden" id="code" name="code[]" value="'.$id.'"/>';
-                                    echo '<input type="hidden" id="purchase_id" name="purchase_id" value="'.$purchase->id.'"/>';
+                                    echo '<input type="hidden" id="sale_id" name="sale_id" value="'.$sale->id.'"/>';;
                                    ?>
                                 <div class="row">
-                                <div class="col-xl-3 col-lg-6 col-md-6">
+                                <div class="col-xl-6 col-lg-6 col-md-6">
+                                    <p>کۆدی کڕین : <span><?php echo $sale->code;?></span></p>
                                     <div class="mb-3">
-                                        <label for="supplier_id" class="form-label">ناوی
-                                            دابینکەر
-                                            <span class="text-danger">*</span></label>
-                                            <select id="supplier_id" class="select2 form-select form-select-lg" data-allow-clear="true">
-                                              <?php
-                                                $suppliers=Supplier::fetchAll();
-                                                foreach($suppliers as $supplier){
-                                                   echo  '<option value="'.$supplier->id.'" ';
-                                                   if($supplier->id == $purchase->supplier){echo "selected";}else{echo null;}
-                                                   echo '>'.$supplier->name.'</option>';
-                                                }
-                                              ?>
-                                            </select>
+                                        <label class="form-label" for="return_status">دۆخ</label>
+                                        <select class="form-control w-25" id="return_status">
+                                            <option value="return">گەڕاندنەوە</option>
+                                            <option value="cancel">ڕەتکردنەوە</option>
+                                        </select>
                                     </div>
                                 </div>
-                                <div class="col-xl-3 col-lg-6 col-md-6">
+                                <div class="col-xl-6 col-lg-6 col-md-6">
+                                    <p>ناوی دابینکەر : <span><?php echo Supplier::singleFetch($sale->supplier)->name;?></span></p>
                                     <div class="mb-3">
-                                        <label for="purchase_date"
-                                            class="form-label">بەرواری کڕین <span class="text-danger">*</span></label>
-                                        <input type="date" class="form-control"
-                                            id="purchase_date" name="purchase_date" value="<?php echo $purchase->purchase_date ?>" />
-                                    </div>
-                                </div>
-                                <div class="col-xl-3 col-lg-6 col-md-6">
-                                <div class="mb-3">
-                                        <label for="supplier_status" class="form-label">دۆخی کڕین <span class="text-danger">*</span></label>
-                                            <select id="supplier_status" class="select2 form-select form-select-lg" data-allow-clear="true">
-                                              <option value="received" <?php echo $purchase->status=="received"?"selected":null; ?>>وەرگیراو</option>
-                                              <option value="pending" <?php echo $purchase->status=="pending"?"selected":null; ?>>هەڵپەسێردراو</option>
-                                              <option value="ordered" <?php echo $purchase->status=="ordered"?"selected":null; ?>>داواکراو</option>
-                                            </select>
-                                    </div>
-                                </div>
-                                <div class="col-xl-3 col-lg-6 col-md-6">
-                                    <div class="mb-3">
-                                        <label for="purchase_ref_num"
-                                            class="form-label">ژمارەی سەرچاوە
-                                            </label>
-                                        <input type="text" class="form-control"
-                                            id="purchase_ref_num" name="purchase_ref_num" value="<?php echo $purchase->ref_num ?>"
-                                            placeholder="ژمارەی سەرچاوە بنووسە..." />
+                                        <label class="form-label" for="return_date">بەروار</label>
+                                        <input class="form-control w-25" id="return_date" type="date" value="<?php echo date('Y-m-d');?>"/>
                                     </div>
                                 </div>
                             </div>
                             <hr>
                             <div class="row">
-                                <audio id="beep" src="<?php echo ASSETS_PATH;?>/audio/beep.mp3"></audio>
-                                <div class="col-xl-12 col-lg-12 col-md-12">
-                                    <div class="mb-3 position-relative">
-                                        <canvas class="d-none"></canvas>
-                                    <div class="input-group input-group-merge">
-                                            <span class="input-group-text"><i class="ti ti-barcode"></i></span>
-                                            <input
-                                                id="item_search"
-                                                class="form-control"
-                                                type="text"
-                                                autocomplete="off"
-                                                placeholder="ناوی کاڵا / بارکۆدی کالا"
-                                            />
-                                        </div>
-                                    <div id="search-result" class="card shadow position-absolute w-100 mt-2 zindex-5"></div>
-                                    </div>
-                                </div>
                                 <div class="col-xl-12 col-lg-12 col-md-12">
                                 <div class="card-datatable text-nowrap overflow-auto">
                                     <table class="table" id="item_table">
@@ -124,8 +79,7 @@
                                                     if($item->code == $id){
                                                         echo '<tr>';
                                                         echo '<input type="hidden" name="custom_id[]" id="custom_id" value="'.$item->custom_id.'">';
-                                                        echo '<input type="hidden" name="item_id[]" id="item_id" value="'.$item->id.'">';
-                                                        echo '<td><input type="text" name="item_name[]" id="item_name" size="100" value="'.$item->name.'" readonly class="form-control item_name"></td>';
+                                                        echo '<input type="hidden" name="item_id[]" id="item_id" value="'.$item->id.'">';                                                        echo '<td><input type="text" name="item_name[]" id="item_name" size="100" value="'.$item->name.'" readonly class="form-control item_name"></td>';
                                                         echo '<td><div class="input-group flex-nowrap">
                                                         <button type="button" class="btn btn-secondary btn-sm item_btn_minus" id="item_btn_minus" ><i class="ti ti-minus"></i></button>
                                                         <input type="text" id="item_qty" name="item_qty[]" size="100" value="'.$item->quantity.'" class="form-control input-sm text-center item_qty">
@@ -154,7 +108,7 @@
                                 <div class="col-xl-6 col-lg-6 col-md-6">
                                     <div class="mb-3">
                                         <h4>کۆی گشتی عەدەدەکان : 
-                                            <span id="total_quantity">0</span>
+                                            <span id="total_quantity"><?php echo $sale->total_quantity; ?></span>
                                         </h4>
                                     </div>
                                     <div class="mb-3">
@@ -162,13 +116,13 @@
                                             <div class="col-4"><h6>خەرجیەکانی تر : </h6></div>
                                             <div class="col-6">
                                         <input type="text" class="form-control"
-                                            id="tax_amount" name="tax_amount" value="<?php echo $purchase->tax_amount ?>"/>
+                                            id="tax_amount" name="tax_amount" value="<?php echo $sale->tax_amount ?>"/>
                                             </div>
                                             <div class="col-2">
                                                 <select class="form-control" name="" id="tax">
-                                                    <option value="5" <?php echo $purchase->tax==5?"selected":null; ?>>5%</option>
-                                                    <option value="10" <?php echo $purchase->tax==10?"selected":null; ?>>10%</option>
-                                                    <option value="15" <?php echo $purchase->tax==15?"selected":null; ?>>15%</option>
+                                                    <option value="5" <?php echo $sale->tax==5?"selected":null; ?>>5%</option>
+                                                    <option value="10" <?php echo $sale->tax==10?"selected":null; ?>>10%</option>
+                                                    <option value="15" <?php echo $sale->tax==15?"selected":null; ?>>15%</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -178,7 +132,7 @@
                                             <div class="col-4"><h6>داشکاندنی هەمووی : </h6></div>
                                             <div class="col-6">
                                         <input type="text" class="form-control"
-                                            id="discount" name="discount" value="<?php echo $purchase->discount; ?>" />
+                                            id="discount" name="discount" value="<?php echo $sale->discount; ?>" />
                                             </div>
                                             <div class="col-2">
                                             <select class="form-control" name="" id="discount_type">
@@ -189,8 +143,8 @@
                                         </div>
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label" for="purchase_note">تێبینی : </label>
-                                        <textarea name="purchase_note" id="purchase_note" class="form-control"><?php echo $purchase->note ?></textarea>
+                                        <label class="form-label" for="sale_note">تێبینی : </label>
+                                        <textarea name="sale_note" id="sale_note" class="form-control"><?php echo $sale->note ?></textarea>
                                     </div>
                                 </div>
                                 <div class="col-xl-6 col-lg-6 col-md-6">
@@ -247,37 +201,6 @@
                                         </table>
                                 </div>
                             </div> 
-                            <hr>
-                            <div class="card bg-secondary p-3" >
-                                <div class="row">
-                                <div class="col-xl-4 col-lg-4 col-md-4">
-                                    <div class="mb-3">
-                                        <label for="purchase_payment_amount"
-                                            class="form-label text-white">تێکڕا </label>
-                                            <span><?php echo $purchase->due;?></span>
-                                        <input type="text" class="form-control"
-                                            id="purchase_payment_amount"
-                                            name="purchase_payment_amount" />
-                                    </div>
-                                </div>
-                                <div class="col-xl-4 col-lg-4 col-md-4">
-                                    <div class="mb-3">
-                                        <label for="purchase_payment_type"
-                                            class="form-label text-white">جۆری پارەدان</label>
-                                       <select class="form-control" name="purchase_payment_type" id="purchase_payment_type">
-                                        <option value="cash">کاش</option>
-                                       </select>
-                                    </div>
-                                </div>
-                                <div class="col-xl-4 col-lg-4 col-md-4">
-                                    <div class="mb-3">
-                                        <label for="purchase_payment_note"
-                                            class="form-label text-white">تێبینی</label>
-                                            <textarea name="purchase_payment_note" id="purchase_payment_note" class="form-control"></textarea>
-                                    </div>
-                                </div>
-                                </div>
-                            </div>
 
                             <div class="my-3 text-center">
                                 <button type="submit"
@@ -288,7 +211,7 @@
                         </form>
                         </div>
                 </div>
-                <!-- purchase list end -->
+                <!-- sale list end -->
             </div>
 
 

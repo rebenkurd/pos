@@ -28,6 +28,7 @@ require_once(CLASS_PATH.DS.'Supplier.php');
 require_once(CLASS_PATH.DS.'Payment.php');
 require_once(CLASS_PATH.DS.'Item.php');
 require_once(CLASS_PATH.DS.'CompanyProfile.php');
+require_once(CLASS_PATH.DS.'Sale.php');
 
 
 

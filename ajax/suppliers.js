@@ -663,6 +663,7 @@ function deleteAllSupplier(){
   checked.each(function(){
       checked_id.push($(this).val());
   });
+  if(confirm("دڵنیایت لە سرینەوەییان؟")){
   for (let i = 0; i < checked_id.length; i++) {
   $.ajax({
       url: 'supplier_api.php',
@@ -674,6 +675,6 @@ function deleteAllSupplier(){
         mytable = $('#supplier_table').DataTable();
         mytable.draw();
       }
-  })
+  })}
 }
 }

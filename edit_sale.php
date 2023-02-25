@@ -16,22 +16,22 @@
         <div class="container-xxl flex-grow-1 container-p-y">
             <div class="row">
                 <!-- View sales -->
-                <!-- purchase list start -->
+                <!-- sale list start -->
                 <div class="col-xl-12 col-lg-12 col-md-12 mx-auto">
                     <div class="card p-3">
                         <h5>زیادکردنی کڕین</h5>
                         <div id="alert"></div>
-                            <!-- add purchase -->
-                            <form action="" id="edit_purchase">
+                            <!-- add sale -->
+                            <form action="" id="edit_sale">
                                 <?php
                                     if(isset($_GET['id'])){
                                         $id=$_GET['id'];
                                     }else{
                                         echo "<script>window.location.href='/pos'</script>";
                                     }
-                                    $purchase=Purchase::findbyCode($id);
+                                    $sale=Sale::findbyCode($id);
                                     echo '<input type="hidden" id="code" name="code[]" value="'.$id.'"/>';
-                                    echo '<input type="hidden" id="purchase_id" name="purchase_id" value="'.$purchase->id.'"/>';
+                                    echo '<input type="hidden" id="sale_id" name="sale_id" value="'.$sale->id.'"/>';
                                    ?>
                                 <div class="row">
                                 <div class="col-xl-3 col-lg-6 col-md-6">
@@ -44,7 +44,7 @@
                                                 $suppliers=Supplier::fetchAll();
                                                 foreach($suppliers as $supplier){
                                                    echo  '<option value="'.$supplier->id.'" ';
-                                                   if($supplier->id == $purchase->supplier){echo "selected";}else{echo null;}
+                                                   if($supplier->id == $sale->supplier){echo "selected";}else{echo null;}
                                                    echo '>'.$supplier->name.'</option>';
                                                 }
                                               ?>
@@ -53,29 +53,29 @@
                                 </div>
                                 <div class="col-xl-3 col-lg-6 col-md-6">
                                     <div class="mb-3">
-                                        <label for="purchase_date"
+                                        <label for="sale_date"
                                             class="form-label">بەرواری کڕین <span class="text-danger">*</span></label>
                                         <input type="date" class="form-control"
-                                            id="purchase_date" name="purchase_date" value="<?php echo $purchase->purchase_date ?>" />
+                                            id="sale_date" name="sale_date" value="<?php echo $sale->sale_date ?>" />
                                     </div>
                                 </div>
                                 <div class="col-xl-3 col-lg-6 col-md-6">
                                 <div class="mb-3">
                                         <label for="supplier_status" class="form-label">دۆخی کڕین <span class="text-danger">*</span></label>
                                             <select id="supplier_status" class="select2 form-select form-select-lg" data-allow-clear="true">
-                                              <option value="received" <?php echo $purchase->status=="received"?"selected":null; ?>>وەرگیراو</option>
-                                              <option value="pending" <?php echo $purchase->status=="pending"?"selected":null; ?>>هەڵپەسێردراو</option>
-                                              <option value="ordered" <?php echo $purchase->status=="ordered"?"selected":null; ?>>داواکراو</option>
+                                              <option value="received" <?php echo $sale->status=="received"?"selected":null; ?>>وەرگیراو</option>
+                                              <option value="pending" <?php echo $sale->status=="pending"?"selected":null; ?>>هەڵپەسێردراو</option>
+                                              <option value="ordered" <?php echo $sale->status=="ordered"?"selected":null; ?>>داواکراو</option>
                                             </select>
                                     </div>
                                 </div>
                                 <div class="col-xl-3 col-lg-6 col-md-6">
                                     <div class="mb-3">
-                                        <label for="purchase_ref_num"
+                                        <label for="sale_ref_num"
                                             class="form-label">ژمارەی سەرچاوە
                                             </label>
                                         <input type="text" class="form-control"
-                                            id="purchase_ref_num" name="purchase_ref_num" value="<?php echo $purchase->ref_num ?>"
+                                            id="sale_ref_num" name="sale_ref_num" value="<?php echo $sale->ref_num ?>"
                                             placeholder="ژمارەی سەرچاوە بنووسە..." />
                                     </div>
                                 </div>
@@ -162,13 +162,13 @@
                                             <div class="col-4"><h6>خەرجیەکانی تر : </h6></div>
                                             <div class="col-6">
                                         <input type="text" class="form-control"
-                                            id="tax_amount" name="tax_amount" value="<?php echo $purchase->tax_amount ?>"/>
+                                            id="tax_amount" name="tax_amount" value="<?php echo $sale->tax_amount ?>"/>
                                             </div>
                                             <div class="col-2">
                                                 <select class="form-control" name="" id="tax">
-                                                    <option value="5" <?php echo $purchase->tax==5?"selected":null; ?>>5%</option>
-                                                    <option value="10" <?php echo $purchase->tax==10?"selected":null; ?>>10%</option>
-                                                    <option value="15" <?php echo $purchase->tax==15?"selected":null; ?>>15%</option>
+                                                    <option value="5" <?php echo $sale->tax==5?"selected":null; ?>>5%</option>
+                                                    <option value="10" <?php echo $sale->tax==10?"selected":null; ?>>10%</option>
+                                                    <option value="15" <?php echo $sale->tax==15?"selected":null; ?>>15%</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -178,7 +178,7 @@
                                             <div class="col-4"><h6>داشکاندنی هەمووی : </h6></div>
                                             <div class="col-6">
                                         <input type="text" class="form-control"
-                                            id="discount" name="discount" value="<?php echo $purchase->discount; ?>" />
+                                            id="discount" name="discount" value="<?php echo $sale->discount; ?>" />
                                             </div>
                                             <div class="col-2">
                                             <select class="form-control" name="" id="discount_type">
@@ -189,8 +189,8 @@
                                         </div>
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label" for="purchase_note">تێبینی : </label>
-                                        <textarea name="purchase_note" id="purchase_note" class="form-control"><?php echo $purchase->note ?></textarea>
+                                        <label class="form-label" for="sale_note">تێبینی : </label>
+                                        <textarea name="sale_note" id="sale_note" class="form-control"><?php echo $sale->note ?></textarea>
                                     </div>
                                 </div>
                                 <div class="col-xl-6 col-lg-6 col-md-6">
@@ -252,28 +252,28 @@
                                 <div class="row">
                                 <div class="col-xl-4 col-lg-4 col-md-4">
                                     <div class="mb-3">
-                                        <label for="purchase_payment_amount"
+                                        <label for="sale_payment_amount"
                                             class="form-label text-white">تێکڕا </label>
-                                            <span><?php echo $purchase->due;?></span>
+                                            <span><?php echo $sale->due;?></span>
                                         <input type="text" class="form-control"
-                                            id="purchase_payment_amount"
-                                            name="purchase_payment_amount" />
+                                            id="sale_payment_amount"
+                                            name="sale_payment_amount" />
                                     </div>
                                 </div>
                                 <div class="col-xl-4 col-lg-4 col-md-4">
                                     <div class="mb-3">
-                                        <label for="purchase_payment_type"
+                                        <label for="sale_payment_type"
                                             class="form-label text-white">جۆری پارەدان</label>
-                                       <select class="form-control" name="purchase_payment_type" id="purchase_payment_type">
+                                       <select class="form-control" name="sale_payment_type" id="sale_payment_type">
                                         <option value="cash">کاش</option>
                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-xl-4 col-lg-4 col-md-4">
                                     <div class="mb-3">
-                                        <label for="purchase_payment_note"
+                                        <label for="sale_payment_note"
                                             class="form-label text-white">تێبینی</label>
-                                            <textarea name="purchase_payment_note" id="purchase_payment_note" class="form-control"></textarea>
+                                            <textarea name="sale_payment_note" id="sale_payment_note" class="form-control"></textarea>
                                     </div>
                                 </div>
                                 </div>
@@ -288,7 +288,7 @@
                         </form>
                         </div>
                 </div>
-                <!-- purchase list end -->
+                <!-- sale list end -->
             </div>
 
 

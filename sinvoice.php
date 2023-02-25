@@ -14,10 +14,10 @@
         <!-- / Menu -->
         <!-- Content -->
         <div class="container-xxl flex-grow-1 container-p-y">
-            <form action="" id="invoice">
+            <form action="" id="sinvoice">
             <div class="row">
             <!-- View sales -->
-            <!-- purchase list start -->
+            <!-- sale list start -->
             <div class="col-xl-12 col-lg-12 col-md-12 mx-auto">
                 <div class="card p-4">
                 <?php
@@ -26,12 +26,12 @@
                     }else{
                         echo "<script>window.location.href='/pos'</script>";
                     }
-                    $purchase=Purchase::findbyCode($id);
+                    $sale=Sale::findbyCode($id);
                     $company=CompanyProfile::singleFetch(1);
                 ?>
                     <div class="row">
                         <div class="col-xl-6"><h5>پسوڵە</h5></div>
-                        <div class="col-xl-6 text-end">بەروار : <?php echo $purchase->purchase_date;?></div>
+                        <div class="col-xl-6 text-end">بەروار : <?php echo $sale->sale_date;?></div>
                     </div>
                     <hr>
                     <div class="row">
@@ -48,7 +48,7 @@
                         </div>
                         <div class="col-xl-4">
                         <?php
-                            $supplier=Supplier::singleFetch($purchase->supplier);
+                            $supplier=Supplier::singleFetch($sale->supplier);
                         ?>
                         <h5>دابینکەر</h5>
                         <p>ناوی کۆمپانیا : <span><?php echo $supplier->name;?></span></p>
@@ -59,8 +59,8 @@
                             <p>TAX : <span><?php echo $supplier->tax;?></span></p>
                         </div>
                         <div class="col-xl-4">
-                            <h6>پسوڵەی : #<span><?php echo $purchase->code;?></span></h6>
-                            <h6>دۆخ : <span><?php echo $purchase->status;?></span></h6>
+                            <h6>پسوڵەی : #<span><?php echo $sale->code;?></span></h6>
+                            <h6>دۆخ : <span><?php echo $sale->status;?></span></h6>
                         </div>
                     </div>
                     <div class="row">
@@ -112,7 +112,7 @@
                                     <h6>داشکاندی هەمووی : <span></span> (%)</h6>
                                     <p>
                                         <span>تیبینی : </span>
-                                        <?php echo $purchase->note;?>
+                                        <?php echo $sale->note;?>
                                     </p>
                                 </div>
                             </div>
@@ -154,22 +154,22 @@
                         </div>
                         <div class="col-xl-6 ps-5">
                         <h6>کۆی گشتی : <span><?php echo "0.00";?></span> دینار</h6>
-                                <h6>خەرجیەکانی تر : <span><?php echo $purchase->other_charges;?></span> دینار</h6>
-                                <h6>داشکاندی هەمووی : <span><?php echo $purchase->discount_all;?></span> دینار</h6>
-                                <h6>کۆتا کۆی گشتی : <span><?php echo $purchase->grand_total;?></span> دینار</h6>
+                                <h6>خەرجیەکانی تر : <span><?php echo $sale->other_charges;?></span> دینار</h6>
+                                <h6>داشکاندی هەمووی : <span><?php echo $sale->discount_all;?></span> دینار</h6>
+                                <h6>کۆتا کۆی گشتی : <span><?php echo $sale->grand_total;?></span> دینار</h6>
                         </div>
                     </div>
                     <div class="row">
                         <div class="co-xl-12">
-                            <a href="edit_purchase.php?id=<?php echo $id;?>" type="button" class="btn btn-info" >گۆڕانکاری</a>
+                            <a href="edit_sale.php?id=<?php echo $id;?>" type="button" class="btn btn-info" >گۆڕانکاری</a>
                             <button type="button" id="inovice_barcode" class="btn btn-secondary">باڕکۆد</button>
                             <button type="button" id="inovice_print" onclick="invoicePrint()" class="btn btn-warning">چاپکردن</button>
-                            <a href="edit_purchase.php?id=<?php echo $id;?>" type="button" class="btn btn-danger">گەڕاندنەوە کڕین</a>
+                            <a href="edit_sale.php?id=<?php echo $id;?>" type="button" class="btn btn-danger">گەڕاندنەوە کڕین</a>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- purchase list end -->
+            <!-- sale list end -->
             </div>
             </form>
                 </div>
