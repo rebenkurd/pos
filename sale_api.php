@@ -146,7 +146,7 @@ if(isset($_POST['add'])){
         }
     }else{
         $sale=new Sale();
-        $sale->code='PR00001';
+        $sale->code='SP00001';
         $sale->supplier=$_POST["supplier_id"];
         $sale->sale_date=$_POST["sale_date"];
         $sale->status=$_POST["supplier_status"];

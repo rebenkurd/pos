@@ -251,7 +251,7 @@ $(document).ready(function(){
               if(success=="true"){
                   $("#add_sale")[0].reset();
                   $("#item_table tbody tr").remove();
-                  window.location.href="sinvoice.php?id="+code;
+                  // window.location.href="sinvoice.php?id="+code;
                   console.log("success");
               }else{
                   console.log("failed");
